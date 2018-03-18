@@ -130,7 +130,9 @@ void dumpToFile(Block* block, StorageManager* manager, FileStream* stream) {
 
 int main(int argc, char** argv)
 {
+#ifdef WINDOWS
   _setmaxstdio(2048);
+#endif
   printf("Fairytale Prototype v0.016 by M. Pais, 2018\n\n");
   if (argc<4 || argc>7 || strlen(argv[1])!=4 || (!isdigit(argv[1][0])) || (!isdigit(argv[1][1])) || (argv[1][0]>argv[1][1]) || ((argv[1][2]&0xDF)!='B') || ((argv[1][3]&0xDF)!='D')) {
     printf("Syntax: fairytale MTBD output_file input_files\n");
