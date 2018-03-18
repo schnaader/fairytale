@@ -90,7 +90,7 @@ bool ModParser::parse(Block* block, ParseData* data, StorageManager* manager) {
           data->audio.bps = 8;
           data->audio.channels = 1;
           data->audio.mode = 4;
-          block = block->segmentAround(offset, length, nullptr, &data->audio, sizeof(AudioInfo), BlockType::AUDIO);
+          block = block->segmentAround(offset, length, BlockType::AUDIO, &data->audio, sizeof(AudioInfo));
           index = 0;
           i+=offset+length-position;
           position = offset+length;

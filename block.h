@@ -36,7 +36,7 @@ public:
   uint8_t level;
   bool done, hashed;
   bool attemptRevival(StorageManager* manager);
-  Block* segmentAround(const off_t pos, const int64_t size, Stream* childStream, void* blInfo, const size_t sizeInfo, const BlockType newType, const bool childDone = false, const BlockType childType = BlockType::DEFAULT, void* childInfo = nullptr, const size_t childSizeInfo = 0);
+  Block* segmentAround(const off_t pos, const int64_t size, const BlockType newType, void* blInfo = nullptr, const size_t sizeInfo = 0, Stream* childStream = nullptr, const BlockType childType = BlockType::DEFAULT, const bool childDone = false, void* childInfo = nullptr, const size_t childSizeInfo = 0);
   Block* nextAtLevel(const uint32_t l, const bool skipDone = true);
   void freeInfo();
   void freeChilds(StorageManager* manager);

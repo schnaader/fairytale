@@ -164,7 +164,7 @@ public:
           if (output!=nullptr) {
             LOG("zLib stream found at %" PRIu64 ", length %u bytes, decompresses to %u bytes, %d penalty bytes\n", offset, data->deflate.lengthIn, data->deflate.lengthOut, data->deflate.penaltyBytesUsed);
             res = true;
-            block = block->segmentAround(offset, data->deflate.lengthIn, output, &data->deflate, sizeof(DeflateInfo), BlockType::DEFLATE);
+            block = block->segmentAround(offset, data->deflate.lengthIn, BlockType::DEFLATE, &data->deflate, sizeof(DeflateInfo), output);
             output->setPriority(STREAM_PRIORITY_HIGH);
             if (block==nullptr)
               return res;

@@ -58,7 +58,7 @@ bool DDSParser::parse(Block* block, ParseData* data, StorageManager* manager) {
               header.ddspf.dwRBitMask==0xFF0000u && header.ddspf.dwGBitMask==0xFF00u && header.ddspf.dwBBitMask==0xFFu
               ) || (
               ((header.ddspf.dwFlags&DDPF_ALPHA)>0 || (header.ddspf.dwFlags&DDPF_ALPHAPIXELS)>0) && header.ddspf.dwRGBBitCount==8 && header.ddspf.dwABitMask==0xFFu
-                )
+              )
             )
           ) {
           int64_t length = sizeof(DDS_HEADER)+4;
@@ -92,7 +92,7 @@ bool DDSParser::parse(Block* block, ParseData* data, StorageManager* manager) {
 
             LOG("DDS %dbpp uncompressed texture found at %" PRIu64 ", %ux%u, %u MipMaps, %" PRIu64 " bytes\n", header.ddspf.dwRGBBitCount, position-8, header.dwWidth, header.dwHeight, header.dwMipMapCount, length);
           }
-          block = block->segmentAround(position-8, length, nullptr, nullptr, 0, BlockType::DDS);
+          block = block->segmentAround(position-8, length, BlockType::DDS);
           i = i-8+length;
           position = position-8+length;
           last8 = 0;

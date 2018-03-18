@@ -119,7 +119,7 @@ public:
                 data->image.grayscale = Image::isGrayscalePalette(block->data, (bmp.paletteEntries>0)?bmp.paletteEntries:(1<<bmp.bpp), true);
               }
               LOG("%dbpp %s%s found at %" PRIu64 ", %dx%d, %" PRIu64 " bytes\n", bmp.bpp, (data->image.grayscale?"grayscale ":""),(noFileHdr?"DIB":"BMP"), offset, data->image.width, data->image.height, length);
-              block = block->segmentAround(offset, length, nullptr, &data->image, sizeof(ImageInfo), BlockType::IMAGE);
+              block = block->segmentAround(offset, length, BlockType::IMAGE, &data->image, sizeof(ImageInfo));
               i+=offset-position+length;
               position = offset+length;
               noFileHdr = false;

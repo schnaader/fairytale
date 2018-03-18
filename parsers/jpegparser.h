@@ -124,7 +124,7 @@ public:
             start-=4;
             int64_t length = offset-start;
             LOG("%s JPEG found at %" PRIu64 ", length: %" PRIu64 " bytes\n", (progressive?"Progressive":"Baseline"), start, length);
-            block = block->segmentAround(start, length, nullptr, nullptr, 0, BlockType::JPEG);
+            block = block->segmentAround(start, length, BlockType::JPEG);
             i+=length-4;
             position = start+length;
             res = true;

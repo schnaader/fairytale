@@ -71,7 +71,7 @@ bool TextParser::parse(Block* block, ParseData* data, StorageManager* manager) {
           data->text.start = position;
         else if (data->text.missCount>MAX_TEXT_MISSES) {
           LOG("Possible text detection at %" PRIu64 ", %" PRIu64 " bytes\n", data->text.start, length);
-          block = block->segmentAround(data->text.start, length, nullptr, nullptr, 0, BlockType::TEXT);
+          block = block->segmentAround(data->text.start, length, BlockType::TEXT);
           data->text.start = position;
           res = true;
           break;
@@ -83,7 +83,7 @@ bool TextParser::parse(Block* block, ParseData* data, StorageManager* manager) {
     else if (position-data->text.start>MIN_TEXT_SIZE) {
       int64_t length = position-data->text.start;
       LOG("Possible text detection at %" PRIu64 ", %" PRIu64 " bytes\n", data->text.start, length);
-      block = block->segmentAround(data->text.start, length, nullptr, nullptr, 0, BlockType::TEXT);
+      block = block->segmentAround(data->text.start, length, BlockType::TEXT);
       res = true;
     }
   }

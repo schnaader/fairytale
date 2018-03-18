@@ -74,7 +74,7 @@ bool Block::attemptRevival(StorageManager* manager) {
   return res;
 }
 
-Block* Block::segmentAround(const off_t pos, const int64_t size, Stream* childStream, void* blInfo, const size_t sizeInfo, const BlockType newType, const bool childDone, const BlockType childType, void* childInfo, const size_t childSizeInfo) {
+Block* Block::segmentAround(const off_t pos, const int64_t size, const BlockType newType, void* blInfo, const size_t sizeInfo, Stream* childStream, const BlockType childType, const bool childDone, void* childInfo, const size_t childSizeInfo) {
   Block* block = this;
   if (pos > block->offset) {
     Block *n = new Block; memcpy(n, block, sizeof(Block));
