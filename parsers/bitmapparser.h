@@ -59,7 +59,8 @@ public:
     uint32_t imgOffset;
     bool res = false, noFileHdr = false;
     position = block->offset;
-    block->data->setPos(position);
+    try { block->data->setPos(position); }
+    catch (ExhaustedStorageException const&) { return false; }
     while (i<l) {
       int k=0, bytesRead=(int)block->data->blockRead(&buffer[0], GENERIC_BUFFER_SIZE);
       while (k<bytesRead && i<l) {
@@ -78,7 +79,8 @@ public:
           )
         {
           off_t offset = position + (noFileHdr?(off_t)(imgOffset=0)+BITMAP_INFO_HEADER-4:(off_t)imgOffset-BITMAP_FILE_HEADER-4);
-          block->data->setPos(position);
+          try { block->data->setPos(position); }
+          catch (ExhaustedStorageException const&) { break; }
           if (
             block->data->blockRead(&data->image.width, 4)!=4 || letoh32(data->image.width)>0x4000 ||
             block->data->blockRead(&data->image.height, 4)!=4 || abs(letoh32(data->image.height))>0x4000 ||
@@ -115,8 +117,11 @@ public:
             if (i+(offset-position)+length<=l) {
               if (bmp.bpp==8) {
                 // read color palette to see if image is grayscale
-                block->data->setPos(position+BITMAP_INFO_HEADER-4);
-                data->image.grayscale = Image::isGrayscalePalette(block->data, (bmp.paletteEntries>0)?bmp.paletteEntries:(1<<bmp.bpp), true);
+                try {
+                  block->data->setPos(position+BITMAP_INFO_HEADER-4);
+                  data->image.grayscale = Image::isGrayscalePalette(block->data, (bmp.paletteEntries>0)?bmp.paletteEntries:(1<<bmp.bpp), true);
+                }
+                catch (ExhaustedStorageException const&) { data->image.grayscale = false; }
               }
               LOG("%dbpp %s%s found at %" PRIu64 ", %dx%d, %" PRIu64 " bytes\n", bmp.bpp, (data->image.grayscale?"grayscale ":""),(noFileHdr?"DIB":"BMP"), offset, data->image.width, data->image.height, length);
               block = block->segmentAround(offset, length, BlockType::IMAGE, &data->image, sizeof(ImageInfo));
@@ -130,8 +135,10 @@ public:
           break;
         }
       }
-      if (i<l)
-        block->data->setPos(position);
+      if (i<l) {
+        try { block->data->setPos(position); }
+        catch (ExhaustedStorageException const&) { return res; }
+      }
     }
     return res;
   }

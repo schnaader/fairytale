@@ -35,7 +35,8 @@ bool TextParser::parse(Block* block, ParseData* data, StorageManager* manager) {
   position = block->offset;
   data->text = { 0 };
   data->text.start = position;
-  block->data->setPos(position);
+  try { block->data->setPos(position); }
+  catch (ExhaustedStorageException const&) { return false; }
   while (i<l) {
     int k=0, bytesRead=(int)block->data->blockRead(&buffer[0], GENERIC_BUFFER_SIZE);
     while (k<bytesRead && i<l) {
@@ -78,8 +79,10 @@ bool TextParser::parse(Block* block, ParseData* data, StorageManager* manager) {
         }
       }
     }
-    if (i<l)
-      block->data->setPos(position);
+    if (i<l) {
+      try { block->data->setPos(position); }
+      catch (ExhaustedStorageException const&) { return res; }
+    }
     else if (position-data->text.start>MIN_TEXT_SIZE) {
       int64_t length = position-data->text.start;
       LOG("Possible text detection at %" PRIu64 ", %" PRIu64 " bytes\n", data->text.start, length);

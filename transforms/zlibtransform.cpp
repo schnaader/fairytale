@@ -224,7 +224,8 @@ HybridStream* zLibTransform::attempt(Stream* input, StorageManager* manager, voi
   for (int i=0; i<minCount; i++)
     data->penaltyBytes[i] = penaltyBytes[index*ZLIB_MAX_PENALTY_BYTES+i+1];
   // now try to output the decompressed stream
-  input->setPos(savedPos);
+  try { input->setPos(savedPos); }
+  catch (ExhaustedStorageException const&) { return nullptr; }
   HybridStream* output = manager->getTempStorage(data->lengthOut);
   if (output==nullptr)
     return output;

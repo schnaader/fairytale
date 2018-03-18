@@ -105,7 +105,8 @@ private:
       strm.zalloc=Z_NULL, strm.zfree=Z_NULL, strm.opaque=Z_NULL;
       strm.next_in=Z_NULL, strm.avail_in=0, strm.total_in=strm.total_out=0;
       if (transform.inflateInitAs(&strm, info->zlibParameters)==Z_OK) {
-        block->data->setPos(position-(brute?BRUTE_LOOKBACK:WINDOW_LOOKBACK));
+        try { block->data->setPos(position-(brute?BRUTE_LOOKBACK:WINDOW_LOOKBACK)); }
+        catch (ExhaustedStorageException const&) { return; }
         do {
           size_t blockSize = block->data->blockRead(blockIn, ZLIB_BLOCK_SIZE);
           strm.next_in=blockIn, strm.avail_in=(uint32_t)blockSize;
@@ -139,7 +140,8 @@ public:
     bool res = false;
     clearBuffers();
     position = block->offset;
-    block->data->setPos(position);
+    try { block->data->setPos(position); }
+    catch (ExhaustedStorageException const&) { return false; }
     while (i<l) {
       int k=0, bytesRead=(int)block->data->blockRead(&buffer[0], GENERIC_BUFFER_SIZE);
       while (k<bytesRead && i<l) {
@@ -159,7 +161,8 @@ public:
 
         if (data->deflate.lengthIn>0) {
           off_t offset=position-(brute?BRUTE_LOOKBACK:WINDOW_LOOKBACK);
-          block->data->setPos(offset);
+          try { block->data->setPos(offset); }
+          catch (ExhaustedStorageException const&) { break; }
           HybridStream* output = transform.attempt(block->data, manager, &data->deflate);
           if (output!=nullptr) {
             LOG("zLib stream found at %" PRIu64 ", length %u bytes, decompresses to %u bytes, %d penalty bytes\n", offset, data->deflate.lengthIn, data->deflate.lengthOut, data->deflate.penaltyBytesUsed);
@@ -202,7 +205,8 @@ public:
             if (gzip.offset>=(off_t)block->length)
               gzip.offset = 0;
             else {
-              block->data->setPos(position+gzip.offset-(2*WINDOW_LOOKBACK-1));
+              try { block->data->setPos(position+gzip.offset-(2*WINDOW_LOOKBACK-1)); }
+              catch (ExhaustedStorageException const&) { break; }
 
               if (gzip.options&gZip::NAME) {
                 do {
@@ -226,8 +230,10 @@ public:
           }
         }
       }
-      if (i<l)
-        block->data->setPos(position);
+      if (i<l) {
+        try { block->data->setPos(position); }
+        catch (ExhaustedStorageException const&) { return res; }
+      }
     }
     return res;
   }

@@ -64,18 +64,22 @@ bool Deduper::match(Block* block1, Block* block2, StorageManager* manager) {
   int64_t length = block1->length;
   off_t off1=block1->offset, off2=block2->offset;
 
-  while (length>0 && ret) {
-    int blsize = (int)min(GENERIC_BUFFER_SIZE, length);
-    block1->data->setPos(off1);
-    int l = (int)block1->data->blockRead(&buffer[0], blsize);
-    block2->data->setPos(off2);
-    ret = (l==(int)block2->data->blockRead(&buffer[GENERIC_BUFFER_SIZE], blsize));
-    if (ret) {
-      ret = memcmp(&buffer[0], &buffer[GENERIC_BUFFER_SIZE], blsize)==0;
-      off1+=l, off2+=l;
-      length-=l;
+  try {
+    while (length>0&&ret) {
+      int blsize = (int)min(GENERIC_BUFFER_SIZE, length);
+      block1->data->setPos(off1);
+      int l = (int)block1->data->blockRead(&buffer[0], blsize);
+      block2->data->setPos(off2);
+      ret = (l==(int)block2->data->blockRead(&buffer[GENERIC_BUFFER_SIZE], blsize));
+      if (ret) {
+        ret = memcmp(&buffer[0], &buffer[GENERIC_BUFFER_SIZE], blsize)==0;
+        off1+=l, off2+=l;
+        length-=l;
+      }
     }
   }
+  catch (ExhaustedStorageException const&) { ret = false; }
+
   // clean up
   if (block1->level>0)
     ((HybridStream*)block1->data)->setPurgeStatus(true);

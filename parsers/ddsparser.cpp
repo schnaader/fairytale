@@ -33,7 +33,8 @@ bool DDSParser::parse(Block* block, ParseData* data, StorageManager* manager) {
   uint64_t last8 = 0;
   bool res = false;
   position = block->offset;
-  block->data->setPos(position);
+  try { block->data->setPos(position); }
+  catch (ExhaustedStorageException const&) { return false; }
   while (i<l) {
     int k=0, bytesRead=(int)block->data->blockRead(&buffer[0], GENERIC_BUFFER_SIZE);
     while (k<bytesRead && i<l) {
@@ -41,7 +42,9 @@ bool DDSParser::parse(Block* block, ParseData* data, StorageManager* manager) {
       i++, position++;
 
       if (last8==0x444453207C000000 /*"DDS ", 124 in L.E.*/) {
-        block->data->setPos(position-4);
+        try { block->data->setPos(position-4); }
+        catch (ExhaustedStorageException const&) { break; }
+
         if (block->data->blockRead(&header, sizeof(DDS_HEADER))==sizeof(DDS_HEADER) &&
           letoh32(header.dwSize)==sizeof(DDS_HEADER) &&
           (letoh32(header.dwFlags)&(DDSD_CAPS|DDSD_HEIGHT|DDSD_WIDTH|DDSD_PIXELFORMAT))==(DDSD_CAPS|DDSD_HEIGHT|DDSD_WIDTH|DDSD_PIXELFORMAT) &&
@@ -101,8 +104,10 @@ bool DDSParser::parse(Block* block, ParseData* data, StorageManager* manager) {
         break;
       }
     }
-    if (i<l)
-      block->data->setPos(position);
+    if (i<l) {
+      try { block->data->setPos(position); }
+      catch (ExhaustedStorageException const&) { return res; }
+    }
   }
   return res;
 }

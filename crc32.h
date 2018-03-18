@@ -29,8 +29,9 @@ private:
 public:
   static uint32_t process(Stream* stream, const off_t offset, int64_t length) {
     uint8_t* buffer = new uint8_t[GENERIC_BUFFER_SIZE];
-    stream->setPos(offset);
     uint32_t crc = 0xFFFFFFFFu;
+    try { stream->setPos(offset); }
+    catch (ExhaustedStorageException const&) { return crc; }
     while (length>0) {
       size_t l = stream->blockRead(&buffer[0], min(GENERIC_BUFFER_SIZE, length));
       if (l==0)

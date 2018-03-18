@@ -35,7 +35,8 @@ bool ModParser::parse(Block* block, ParseData* data, StorageManager* manager) {
   memset(&window[0], 0, sizeof(window));
   bool res = false;
   position = block->offset;
-  block->data->setPos(position);
+  try { block->data->setPos(position); }
+  catch (ExhaustedStorageException const&) { return false; }
   while (i<l) {
     int k=0, bytesRead=(int)block->data->blockRead(&buffer[0], GENERIC_BUFFER_SIZE);
     while (k<bytesRead && i<l) {
@@ -100,8 +101,10 @@ bool ModParser::parse(Block* block, ParseData* data, StorageManager* manager) {
         }
       }
     }
-    if (i<l)
-      block->data->setPos(position);
+    if (i<l) {
+      try { block->data->setPos(position); }
+      catch (ExhaustedStorageException const&) { return res; }
+    }
   }
   return res;
 }
