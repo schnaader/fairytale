@@ -21,7 +21,7 @@
 #define TRANSFORMFACTORY_H
 
 #include "block.h"
-#include "transforms\zlibtransform.h"
+#include "transforms/zlibtransform.h"
 
 class TransformFactory {
 public:

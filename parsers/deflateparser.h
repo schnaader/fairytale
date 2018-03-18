@@ -21,7 +21,7 @@
 #define DEFLATEPARSER_H
 
 #include "../parser.h"
-#include "../transforms\zlibtransform.h"
+#include "../transforms/zlibtransform.h"
 
 #define WINDOW_LOOKBACK     32
 #define BRUTE_LOOKBACK      256
