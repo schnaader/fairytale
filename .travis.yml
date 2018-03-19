@@ -7,6 +7,12 @@ compiler:
 os:
 - linux
 - osx
+
+matrix:
+  exclude:
+    - os: osx
+      compiler: gcc
+
 before_install:
 - echo $LANG
 - echo $LC_ALL
