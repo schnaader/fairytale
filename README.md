@@ -28,7 +28,7 @@ It doesn't apply any compression right now.
 
 [for OSX](..)
 
-[for Windows](..)
+[for Windows](https://drive.google.com/drive/folders/1uj2YVjpbRscJiM0llTU-9uJuY5BmgBvt)
 
 License
 -------
