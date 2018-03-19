@@ -95,7 +95,7 @@ HybridStream* zLibTransform::attempt(Stream* input, StorageManager* manager, voi
 
   // now try to find a combination that can reproduce the original stream
   for (uint32_t i=0; i<data->lengthIn; i+=ZLIB_BLOCK_SIZE) {
-    uint32_t blockSize = min(data->lengthIn-i, ZLIB_BLOCK_SIZE);
+    uint32_t blockSize = min(data->lengthIn-i, (uint32_t)ZLIB_BLOCK_SIZE);
     trials = 0;
 
     for (int j=0; j<ZLIB_NUM_COMBINATIONS; j++) {
@@ -248,7 +248,7 @@ bool zLibTransform::apply(Stream* input, Stream* output, void* info) {
   if (inflateInitAs(&strm, data->zlibParameters)!=Z_OK)
     return false;
   for (uint32_t i=0; i<data->lengthIn; i+=ZLIB_BLOCK_SIZE) {
-    uint32_t blockSize = min(data->lengthIn-i, ZLIB_BLOCK_SIZE);
+    uint32_t blockSize = min(data->lengthIn-i, (uint32_t)ZLIB_BLOCK_SIZE);
     input->blockRead(&blockIn[0], blockSize);
     strm.next_in=&blockIn[0], strm.avail_in=blockSize;
     do {

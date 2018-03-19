@@ -87,7 +87,7 @@ private:
     }
   }
   inline bool validate(const uint32_t in, const uint32_t out, const bool brute) {
-    return (in>max(32ul/max(1ul, out/max(1ul, in)), uint32_t(brute)<<7));
+    return (in>max((uint32_t)32ul/max((uint32_t)1ul, out/max((uint32_t)1ul, in)), uint32_t(brute)<<7));
   }
   void getStreamInfo(Block* block, DeflateInfo* info, const bool brute) {
     int ret = 0;
