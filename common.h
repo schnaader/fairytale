@@ -146,8 +146,10 @@ inline int min(int a, int b) { return a<b?a:b; }
 inline int max(int a, int b) { return a<b?b:a; }
 inline uint32_t min(uint32_t a, uint32_t b) { return a<b?a:b; }
 inline uint32_t max(uint32_t a, uint32_t b) { return a<b?b:a; }
+#ifndef BIT32
 inline size_t min(size_t a, size_t b) { return a<b?a:b; }
 inline size_t max(size_t a, size_t b) { return a<b?b:a; }
+#endif
 inline int64_t min(int64_t a, int64_t b) { return a<b?a:b; }
 inline int64_t max(int64_t a, int64_t b) { return a<b?b:a; }
 
