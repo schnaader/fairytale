@@ -120,7 +120,7 @@ enum class Endian { Little, Big };
   #define CreateFile  CreateFileW
 #endif
 
-#define VERBOSE
+//#define VERBOSE
 #ifdef VERBOSE
   #define LOG(fmt, ...) do { printf(fmt, ##__VA_ARGS__); } while (0)
 #else
