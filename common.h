@@ -70,7 +70,7 @@ enum class Endian { Little, Big };
   #include <limits.h> //PATH_MAX (for OSX)
   #include <unistd.h> //isatty()
   #include <errno.h>  //errno
-  #include <new>      //std::bad_alloc()
+  #include <new>
 #else
   #ifndef NOMINMAX
     #define NOMINMAX
@@ -133,7 +133,7 @@ enum class Endian { Little, Big };
 #endif
 
 #define MAX_INDEXABLE size_t((1ull<<(sizeof(void*)*8-1))-1)
-#define MEM_LIMIT(mem) (mem>MAX_INDEXABLE?MAX_INDEXABLE:size_t(mem))
+#define MEM_LIMIT(mem) (mem>(int64_t)MAX_INDEXABLE?MAX_INDEXABLE:size_t(mem))
 
 #define GENERIC_BUFFER_SIZE 0x8000ll //32KB
 #if (GENERIC_BUFFER_SIZE&(GENERIC_BUFFER_SIZE-1)) || (GENERIC_BUFFER_SIZE<=4096)

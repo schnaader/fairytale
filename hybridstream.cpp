@@ -165,7 +165,7 @@ void HybridStream::blockWrite(void *ptr, const size_t count) {
         throw ExhaustedStorageException();
     }
   }
-  if (filepos+count<=(size_t)sizeLimit) {
+  if ((int64_t)(filepos+count)<=sizeLimit) {
     assert(file!=nullptr);
     file->blockWrite(ptr, count);
     filepos+=off_t(count);

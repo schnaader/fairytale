@@ -157,7 +157,7 @@ HybridStream* StorageManager::getTempStorage(int64_t storageRequested, HybridStr
       return nullptr;
   }
 
-  size_t memRequested = min(available.memory, MEM_LIMIT((size_t)storageRequested));
+  size_t memRequested = min(available.memory, MEM_LIMIT(storageRequested));
   if ((int64_t)memRequested > available.total)
     memRequested = available.total;
   else if (memRequested > max(MEM_BLOCK_SIZE*2, min(DEFAULT_TEMP_MEM_PER_STREAM, available.memory>>3)))
