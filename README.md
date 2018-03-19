@@ -22,7 +22,7 @@ Releases/Binaries
 Please note that this is a very rough prototype that allows for testing of the pre-processing library.
 It doesn't apply any compression right now.
 
-[for ARM](https://drive.google.com/drive/folders/1voRST32nIzfj6nP0mEVt2pf0z8HBJ0_4)
+[for ARM](https://drive.google.com/file/d/1Uc1w3Sf0J8A2wGZtcYtIDpHjcSuX8oY7/view)
 
 [for Linux](..)
 
