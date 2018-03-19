@@ -16,6 +16,12 @@ and enough flexibility to chose between fast, best practical or experimental sta
 Fairytale is a dream of a next generation archiver and it is a work in progress
 so if you share our dream and want to contribute, [join our great community here](https://gitter.im/encode-ru-Community-Archiver/Lobby)
 
+How to build
+------------
+
+For Windows, there's a make.bat batch script that works with MinGW. Use "make" for a 64-bit build, "make 32" for a 32-bit build.
+For Linux, OSX and ARM, there are Makefiles. Use "make" for a 64-bit build, "make -f Makefile.32" for a 32-bit build. 
+
 Releases/Binaries
 -----------------
 
