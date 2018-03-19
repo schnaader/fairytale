@@ -94,8 +94,8 @@ void StorageManager::doForcedPurge(uint32_t purgeRequested) {
 
 
 StorageManager::StorageManager(const size_t maxMemUsage, const int64_t maxTotalUsage) : streams(0), available({maxMemUsage, maxTotalUsage}), limit({maxMemUsage, maxTotalUsage}), pruneIndex(0) {
-  assert(maxTotalUsage>MEM_BLOCK_SIZE && (maxTotalUsage&(MEM_BLOCK_SIZE-1))==0);
-  assert(maxMemUsage<=maxTotalUsage && (maxMemUsage&(MEM_BLOCK_SIZE-1))==0);
+  assert((uint64_t)maxTotalUsage>MEM_BLOCK_SIZE && (maxTotalUsage&(MEM_BLOCK_SIZE-1))==0);
+  assert((int64_t)maxMemUsage<=maxTotalUsage && (maxMemUsage&(MEM_BLOCK_SIZE-1))==0);
   LOG("Created StorageManager using %zuMB of RAM, %" PRIu64 "MB of total storage\n", maxMemUsage>>20, maxTotalUsage>>20);
 }
 
@@ -157,8 +157,8 @@ HybridStream* StorageManager::getTempStorage(int64_t storageRequested, HybridStr
       return nullptr;
   }
 
-  size_t memRequested = min(available.memory, MEM_LIMIT(storageRequested));
-  if (memRequested > available.total)
+  size_t memRequested = min(available.memory, MEM_LIMIT((size_t)storageRequested));
+  if ((int64_t)memRequested > available.total)
     memRequested = available.total;
   else if (memRequested > max(MEM_BLOCK_SIZE*2, min(DEFAULT_TEMP_MEM_PER_STREAM, available.memory>>3)))
     memRequested = 0;
@@ -183,7 +183,7 @@ HybridStream* StorageManager::getTempStorage(int64_t storageRequested, HybridStr
   }
   else {
     try {
-      if (memRequested<storageRequested)
+      if ((int64_t)memRequested<storageRequested)
         doForcedPurge(1);
       stream->restore(memRequested, available.total);
     }

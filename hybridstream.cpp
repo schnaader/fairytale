@@ -36,7 +36,7 @@ void HybridStream::freeFile() {
 
 void HybridStream::allocate() {
   assert(sizeLimit>0);
-  assert(memLimit<=sizeLimit);
+  assert((int64_t)memLimit<=sizeLimit);
   if (memLimit>0)
     memory = new Array<uint8_t>(memLimit);
   else {
@@ -165,7 +165,7 @@ void HybridStream::blockWrite(void *ptr, const size_t count) {
         throw ExhaustedStorageException();
     }
   }
-  if (filepos+count<=sizeLimit) {
+  if (filepos+count<=(size_t)sizeLimit) {
     assert(file!=nullptr);
     file->blockWrite(ptr, count);
     filepos+=off_t(count);
