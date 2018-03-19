@@ -70,6 +70,7 @@ enum class Endian { Little, Big };
   #include <limits.h> //PATH_MAX (for OSX)
   #include <unistd.h> //isatty()
   #include <errno.h>  //errno
+  #include <new>      //std::bad_alloc()
 #else
   #ifndef NOMINMAX
     #define NOMINMAX
