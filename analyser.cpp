@@ -25,7 +25,7 @@
 #include "parsers/ddsparser.h"
 #include "parsers/modparser.h"
 
-Analyser::Analyser(const Array<Parsers> *parsers) : strict(0), fuzzy(0), data{ 0 } {
+Analyser::Analyser(const Array<Parsers> *parsers) : strict(0), fuzzy(0), data{{ 0 }} {
   size_t l = parsers->size();
   bool used[static_cast<size_t>(Parsers::Count)] = { 0 };
   for (size_t i=0; i<l; i++) {
