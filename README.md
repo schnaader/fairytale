@@ -14,7 +14,7 @@ modern lossless community archiver that features
 It offers great modularity so that any algorithm can be added to it
 and enough flexibility to chose between fast, best practical or experimental state-of-the-art compression.
 Fairytale is a dream of a next generation archiver and it is a work in progress
-so if you share our dream and want to contribute, [join our great community here](https://gitter.im/encode-ru-Community-Archiver/Lobby)
+so if you share our dream and want to contribute, [join our great community here](https://gitter.im/encode-ru-Community-Archiver)
 
 How to build
 ------------
