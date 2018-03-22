@@ -24,6 +24,16 @@
 
 template <const bool Progressive> class JpegParser : public Parser<ParserType::Strict> {
 private:
+  enum Markers {
+    SOF0 = 0xC0,
+    SOF1 = 0xC1,
+    SOF2 = 0xC2,
+    DHT  = 0xC4,
+    SOI  = 0xD8,
+    EOI  = 0xD9,
+    SOS  = 0xDA,
+    DQT  = 0xDB
+  };
   uint8_t buffer[GENERIC_BUFFER_SIZE];
   off_t position;
 public:
@@ -52,13 +62,11 @@ public:
         i++, position++;
 
         if ((last4&0xFFFFFF00)==0xFFD8FF00 && (
-          (c&0xFE)==0xC0 ||
-          (Progressive && c==0xC2) ||
-          (c==0xC4) ||
-          (c>=0xDB && c<=0xFE)
+          (c==SOF0) || (c==SOF1) || (Progressive && c==SOF2) ||
+          (c==DHT) || (c>=DQT && c<=0xFE)
           ))
         {
-          bool done = false, found = false, hasQuantTable = (c==0xDB), progressive = (c==0xC2);
+          bool done = false, found = false, hasQuantTable = (c==DQT), progressive = (c==SOF2);
           off_t start=position, offset=start-2;
           do {
             try { block->data->setPos(offset); }
@@ -68,7 +76,7 @@ public:
 
             int length = (int)(buffer[2]*256)+(int)buffer[3];
             switch (buffer[1]) {
-              case 0xDB : {
+              case DQT : {
                 // FF DB XX XX QtId ...
                 // Marker length (XX XX) must be = 2 + multiple of 65 <= 260
                 // QtId:
@@ -82,14 +90,14 @@ public:
                   done = true;
                 break;
               }
-              case 0xC4 : {
+              case DHT : {
                 done = ((buffer[4]&0xF)>3 || (buffer[4]>>4)>1);
                 offset += length+2;
                 break;
               }
-              case 0xDA : found = hasQuantTable;
-              case 0xD9 : done = true; break; //EOI with no SOS?
-              case 0xC2 : {
+              case SOS : found = hasQuantTable;
+              case EOI : done = true; break; //EOI with no SOS?
+              case SOF2: {
                 if (Progressive)
                   progressive = true;
                 else {
@@ -97,7 +105,7 @@ public:
                   break;
                 }
               }
-              case 0xC0 : done = (buffer[4]!=0x08);
+              case SOF0 : done = (buffer[4]!=0x08);
               default: offset += length+2;
             }
           } while (!done);
@@ -114,8 +122,8 @@ public:
                 if (!isMarker)
                   isMarker = (buffer[j]==0xFF);
                 else {
-                  done = (buffer[j] && ((buffer[j]&0xF8)!=0xD0) && ((progressive)?(buffer[j]!=0xC4) && (buffer[j]!=0xDA):true));
-                  found = (buffer[j]==0xD9);
+                  done = (buffer[j] && ((buffer[j]&0xF8)!=0xD0 /*skip Restart Markers RST0 to RST7*/) && ((progressive)?(buffer[j]!=DHT) && (buffer[j]!=SOS):true));
+                  found = (buffer[j]==EOI);
                   isMarker = false;
                 }
               }
