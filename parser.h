@@ -52,6 +52,7 @@ template <const ParserType type> class Parser {
 protected:
   int priority;
 public:
+  virtual ~Parser() {}
   virtual bool parse(Block* block, ParseData* data, StorageManager* manager) = 0;
   int getPriority() { return priority; }
 };
