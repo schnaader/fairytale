@@ -151,3 +151,10 @@ bool Analyser::analyse(Block* block, StorageManager* manager, Deduper* deduper) 
   } while (detected && level<=MAX_RECURSION_LEVEL);
   return result;
 }
+
+Analyser::~Analyser() {
+  size_t l = strict.size();
+  for(size_t i=0; i<l; i++) { delete strict[i]; }
+  l = fuzzy.size();
+  for(size_t i=0; i<l; i++) { delete fuzzy[i]; }
+}
