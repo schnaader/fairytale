@@ -1,0 +1,112 @@
+[
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/g++.exe   -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/transforms/zlibtransform.cpp.obj -c /E/Cpp/Projects/fairytale/transforms/zlibtransform.cpp",
+  "file": "E:/Cpp/Projects/fairytale/transforms/zlibtransform.cpp"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/g++.exe   -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/parsers/ddsparser.cpp.obj -c /E/Cpp/Projects/fairytale/parsers/ddsparser.cpp",
+  "file": "E:/Cpp/Projects/fairytale/parsers/ddsparser.cpp"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/g++.exe   -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/parsers/modparser.cpp.obj -c /E/Cpp/Projects/fairytale/parsers/modparser.cpp",
+  "file": "E:/Cpp/Projects/fairytale/parsers/modparser.cpp"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/g++.exe   -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/parsers/textparser.cpp.obj -c /E/Cpp/Projects/fairytale/parsers/textparser.cpp",
+  "file": "E:/Cpp/Projects/fairytale/parsers/textparser.cpp"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/g++.exe   -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/fairytale.cpp.obj -c /E/Cpp/Projects/fairytale/fairytale.cpp",
+  "file": "E:/Cpp/Projects/fairytale/fairytale.cpp"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/g++.exe   -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/analyser.cpp.obj -c /E/Cpp/Projects/fairytale/analyser.cpp",
+  "file": "E:/Cpp/Projects/fairytale/analyser.cpp"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/g++.exe   -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/block.cpp.obj -c /E/Cpp/Projects/fairytale/block.cpp",
+  "file": "E:/Cpp/Projects/fairytale/block.cpp"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/g++.exe   -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/deduper.cpp.obj -c /E/Cpp/Projects/fairytale/deduper.cpp",
+  "file": "E:/Cpp/Projects/fairytale/deduper.cpp"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/g++.exe   -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/filestream.cpp.obj -c /E/Cpp/Projects/fairytale/filestream.cpp",
+  "file": "E:/Cpp/Projects/fairytale/filestream.cpp"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/g++.exe   -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/hybridstream.cpp.obj -c /E/Cpp/Projects/fairytale/hybridstream.cpp",
+  "file": "E:/Cpp/Projects/fairytale/hybridstream.cpp"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/g++.exe   -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/storagemanager.cpp.obj -c /E/Cpp/Projects/fairytale/storagemanager.cpp",
+  "file": "E:/Cpp/Projects/fairytale/storagemanager.cpp"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/gcc.exe  -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/contrib/zlib/inflate.c.obj   -c /E/Cpp/Projects/fairytale/contrib/zlib/inflate.c",
+  "file": "E:/Cpp/Projects/fairytale/contrib/zlib/inflate.c"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/gcc.exe  -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/contrib/zlib/infback.c.obj   -c /E/Cpp/Projects/fairytale/contrib/zlib/infback.c",
+  "file": "E:/Cpp/Projects/fairytale/contrib/zlib/infback.c"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/gcc.exe  -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/contrib/zlib/trees.c.obj   -c /E/Cpp/Projects/fairytale/contrib/zlib/trees.c",
+  "file": "E:/Cpp/Projects/fairytale/contrib/zlib/trees.c"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/gcc.exe  -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/contrib/zlib/compress.c.obj   -c /E/Cpp/Projects/fairytale/contrib/zlib/compress.c",
+  "file": "E:/Cpp/Projects/fairytale/contrib/zlib/compress.c"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/gcc.exe  -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/contrib/zlib/inftrees.c.obj   -c /E/Cpp/Projects/fairytale/contrib/zlib/inftrees.c",
+  "file": "E:/Cpp/Projects/fairytale/contrib/zlib/inftrees.c"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/gcc.exe  -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/contrib/zlib/zutil.c.obj   -c /E/Cpp/Projects/fairytale/contrib/zlib/zutil.c",
+  "file": "E:/Cpp/Projects/fairytale/contrib/zlib/zutil.c"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/gcc.exe  -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/contrib/zlib/deflate.c.obj   -c /E/Cpp/Projects/fairytale/contrib/zlib/deflate.c",
+  "file": "E:/Cpp/Projects/fairytale/contrib/zlib/deflate.c"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/gcc.exe  -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/contrib/zlib/inffast.c.obj   -c /E/Cpp/Projects/fairytale/contrib/zlib/inffast.c",
+  "file": "E:/Cpp/Projects/fairytale/contrib/zlib/inffast.c"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/gcc.exe  -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/contrib/zlib/uncompr.c.obj   -c /E/Cpp/Projects/fairytale/contrib/zlib/uncompr.c",
+  "file": "E:/Cpp/Projects/fairytale/contrib/zlib/uncompr.c"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/gcc.exe  -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/contrib/zlib/adler32.c.obj   -c /E/Cpp/Projects/fairytale/contrib/zlib/adler32.c",
+  "file": "E:/Cpp/Projects/fairytale/contrib/zlib/adler32.c"
+},
+{
+  "directory": "E:/Cpp/Projects/fairytale",
+  "command": "/E/Cpp/msys64/mingw64/bin/gcc.exe  -I/E/Cpp/Projects/fairytale/fairytale -I/E/Cpp/Projects/fairytale/contrib/zlib    -o CMakeFiles/fairytale.dir/contrib/zlib/crc32.c.obj   -c /E/Cpp/Projects/fairytale/contrib/zlib/crc32.c",
+  "file": "E:/Cpp/Projects/fairytale/contrib/zlib/crc32.c"
+}
+]
