@@ -258,12 +258,14 @@ bool zLibTransform::apply(Stream* input, Stream* output, void* info) {
         output->blockWrite(&blockOut[0], ZLIB_BLOCK_SIZE-strm.avail_out);
       }
       catch (ExhaustedStorageException const&) {
+        inflateEnd(&strm);
         return false;
       }
     } while (strm.avail_out==0 && ret==Z_BUF_ERROR);
     if (ret!=Z_BUF_ERROR && ret!=Z_STREAM_END)
       break;
   }
+  inflateEnd(&strm);
   return (ret==Z_STREAM_END);
 }
 
