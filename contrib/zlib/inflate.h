@@ -13,7 +13,7 @@
    the crc code when it is not needed.  For shared libraries, gzip decoding
    should be left enabled. */
 #ifndef NO_GZIP
-#define GUNZIP
+#  define GUNZIP
 #endif
 
 /* Possible inflate modes between inflate() calls */

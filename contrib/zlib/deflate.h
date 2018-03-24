@@ -20,7 +20,7 @@
    the crc code when it is not needed.  For shared libraries, gzip encoding
    should be left enabled. */
 #ifndef NO_GZIP
-#define GZIP
+#  define GZIP
 #endif
 
 /* ===========================================================================
@@ -312,36 +312,36 @@ void ZLIB_INTERNAL _tr_stored_block OF((deflate_state * s, charf *buf, ulg store
 #ifndef DEBUG
 /* Inline versions of _tr_tally for speed: */
 
-#if defined(GEN_TREES_H) || !defined(STDC)
+#  if defined(GEN_TREES_H) || !defined(STDC)
 extern uch ZLIB_INTERNAL _length_code[];
 extern uch ZLIB_INTERNAL _dist_code[];
-#else
+#    else
 extern const uch ZLIB_INTERNAL _length_code[];
 extern const uch ZLIB_INTERNAL _dist_code[];
-#endif
+#    endif
 
-#define _tr_tally_lit(s, c, flush) \
-  { \
-    uch cc = (c); \
-    s->d_buf[s->last_lit] = 0; \
-    s->l_buf[s->last_lit++] = cc; \
-    s->dyn_ltree[cc].Freq++; \
-    flush = (s->last_lit == s->lit_bufsize - 1); \
-  }
-#define _tr_tally_dist(s, distance, length, flush) \
-  { \
-    uch len = (length); \
-    ush dist = (distance); \
-    s->d_buf[s->last_lit] = dist; \
-    s->l_buf[s->last_lit++] = len; \
-    dist--; \
-    s->dyn_ltree[_length_code[len] + LITERALS + 1].Freq++; \
-    s->dyn_dtree[d_code(dist)].Freq++; \
-    flush = (s->last_lit == s->lit_bufsize - 1); \
-  }
-#else
-#define _tr_tally_lit(s, c, flush) flush = _tr_tally(s, 0, c)
-#define _tr_tally_dist(s, distance, length, flush) flush = _tr_tally(s, distance, length)
-#endif
+#    define _tr_tally_lit(s, c, flush) \
+      { \
+        uch cc = (c); \
+        s->d_buf[s->last_lit] = 0; \
+        s->l_buf[s->last_lit++] = cc; \
+        s->dyn_ltree[cc].Freq++; \
+        flush = (s->last_lit == s->lit_bufsize - 1); \
+      }
+#    define _tr_tally_dist(s, distance, length, flush) \
+      { \
+        uch len = (length); \
+        ush dist = (distance); \
+        s->d_buf[s->last_lit] = dist; \
+        s->l_buf[s->last_lit++] = len; \
+        dist--; \
+        s->dyn_ltree[_length_code[len] + LITERALS + 1].Freq++; \
+        s->dyn_dtree[d_code(dist)].Freq++; \
+        flush = (s->last_lit == s->lit_bufsize - 1); \
+      }
+#  else
+#    define _tr_tally_lit(s, c, flush) flush = _tr_tally(s, 0, c)
+#    define _tr_tally_dist(s, distance, length, flush) flush = _tr_tally(s, distance, length)
+#  endif
 
 #endif /* DEFLATE_H */

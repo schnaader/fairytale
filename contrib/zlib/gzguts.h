@@ -4,95 +4,95 @@
  */
 
 #ifdef _LARGEFILE64_SOURCE
-#ifndef _LARGEFILE_SOURCE
-#define _LARGEFILE_SOURCE 1
-#endif
-#ifdef _FILE_OFFSET_BITS
-#undef _FILE_OFFSET_BITS
-#endif
+#  ifndef _LARGEFILE_SOURCE
+#    define _LARGEFILE_SOURCE 1
+#  endif
+#  ifdef _FILE_OFFSET_BITS
+#    undef _FILE_OFFSET_BITS
+#  endif
 #endif
 
 #ifdef HAVE_HIDDEN
-#define ZLIB_INTERNAL __attribute__((visibility("hidden")))
+#  define ZLIB_INTERNAL __attribute__((visibility("hidden")))
 #else
-#define ZLIB_INTERNAL
+#  define ZLIB_INTERNAL
 #endif
 
 #include <stdio.h>
 #include "zlib.h"
 #ifdef STDC
-#include <string.h>
-#include <stdlib.h>
-#include <limits.h>
+#  include <limits.h>
+#  include <stdlib.h>
+#  include <string.h>
 #endif
 #include <fcntl.h>
 
 #ifdef _WIN32
-#include <stddef.h>
+#  include <stddef.h>
 #endif
 
 #if defined(__TURBOC__) || defined(_MSC_VER) || defined(_WIN32)
-#include <io.h>
+#  include <io.h>
 #endif
 
 #ifdef WINAPI_FAMILY
-#define open _open
-#define read _read
-#define write _write
-#define close _close
+#  define open _open
+#  define read _read
+#  define write _write
+#  define close _close
 #endif
 
 #ifdef NO_DEFLATE /* for compatibility with old definition */
-#define NO_GZCOMPRESS
+#  define NO_GZCOMPRESS
 #endif
 
 #if defined(STDC99) || (defined(__TURBOC__) && __TURBOC__ >= 0x550)
-#ifndef HAVE_VSNPRINTF
-#define HAVE_VSNPRINTF
-#endif
+#  ifndef HAVE_VSNPRINTF
+#    define HAVE_VSNPRINTF
+#  endif
 #endif
 
 #if defined(__CYGWIN__)
-#ifndef HAVE_VSNPRINTF
-#define HAVE_VSNPRINTF
-#endif
+#  ifndef HAVE_VSNPRINTF
+#    define HAVE_VSNPRINTF
+#  endif
 #endif
 
 #if defined(MSDOS) && defined(__BORLANDC__) && (BORLANDC > 0x410)
-#ifndef HAVE_VSNPRINTF
-#define HAVE_VSNPRINTF
-#endif
+#  ifndef HAVE_VSNPRINTF
+#    define HAVE_VSNPRINTF
+#  endif
 #endif
 
 #ifndef HAVE_VSNPRINTF
-#ifdef MSDOS
-/* vsnprintf may exist on some MS-DOS compilers (DJGPP?),
+#  ifdef MSDOS
+    /* vsnprintf may exist on some MS-DOS compilers (DJGPP?),
    but for now we just assume it doesn't. */
-#define NO_vsnprintf
-#endif
-#ifdef __TURBOC__
-#define NO_vsnprintf
-#endif
-#ifdef WIN32
-/* In Win32, vsnprintf is available as the "non-ANSI" _vsnprintf. */
-#if !defined(vsnprintf) && !defined(NO_vsnprintf)
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && _MSC_VER < 1500)
-#define vsnprintf _vsnprintf
-#endif
-#endif
-#endif
-#ifdef __SASC
-#define NO_vsnprintf
-#endif
-#ifdef VMS
-#define NO_vsnprintf
-#endif
-#ifdef __OS400__
-#define NO_vsnprintf
-#endif
-#ifdef __MVS__
-#define NO_vsnprintf
-#endif
+#    define NO_vsnprintf
+#  endif
+#  ifdef __TURBOC__
+#    define NO_vsnprintf
+#  endif
+#  ifdef WIN32
+    /* In Win32, vsnprintf is available as the "non-ANSI" _vsnprintf. */
+#    if !defined(vsnprintf) && !defined(NO_vsnprintf)
+#      if !defined(_MSC_VER) || (defined(_MSC_VER) && _MSC_VER < 1500)
+#        define vsnprintf _vsnprintf
+#      endif
+#    endif
+#  endif
+#  ifdef __SASC
+#    define NO_vsnprintf
+#  endif
+#  ifdef VMS
+#    define NO_vsnprintf
+#  endif
+#  ifdef __OS400__
+#    define NO_vsnprintf
+#  endif
+#  ifdef __MVS__
+#    define NO_vsnprintf
+#  endif
 #endif
 
 /* unlike snprintf (which is required in C99, yet still not supported by
@@ -100,11 +100,11 @@
    termination of the result -- however this is only used in gzlib.c where
    the result is assured to fit in the space provided */
 #ifdef _MSC_VER
-#define snprintf _snprintf
+#  define snprintf _snprintf
 #endif
 
 #ifndef local
-#define local static
+#  define local static
 #endif
 /* compile with -Dlocal if your debugger can't find static symbols */
 
@@ -116,15 +116,15 @@ extern void free OF((voidpf ptr));
 
 /* get errno and strerror definition */
 #if defined UNDER_CE
-#include <windows.h>
-#define zstrerror() gz_strwinerror((DWORD)GetLastError())
+#  include <windows.h>
+#  define zstrerror() gz_strwinerror((DWORD)GetLastError())
 #else
-#ifndef NO_STRERROR
-#include <errno.h>
-#define zstrerror() strerror(errno)
-#else
-#define zstrerror() "stdio error (consult errno)"
-#endif
+#  ifndef NO_STRERROR
+#    include <errno.h>
+#    define zstrerror() strerror(errno)
+#  else
+#    define zstrerror() "stdio error (consult errno)"
+#  endif
 #endif
 
 /* provide prototypes for these when building zlib without LFS */
@@ -137,9 +137,9 @@ ZEXTERN z_off64_t ZEXPORT gzoffset64 OF((gzFile));
 
 /* default memLevel */
 #if MAX_MEM_LEVEL >= 8
-#define DEF_MEM_LEVEL 8
+#  define DEF_MEM_LEVEL 8
 #else
-#define DEF_MEM_LEVEL MAX_MEM_LEVEL
+#  define DEF_MEM_LEVEL MAX_MEM_LEVEL
 #endif
 
 /* default i/o buffer size -- double this for output when reading (this and
@@ -202,8 +202,8 @@ char ZLIB_INTERNAL *gz_strwinerror OF((DWORD error));
    value -- needed when comparing unsigned to z_off64_t, which is signed
    (possible z_off64_t types off_t, off64_t, and long are all signed) */
 #ifdef INT_MAX
-#define GT_OFF(x) (sizeof(int) == sizeof(z_off64_t) && (x) > INT_MAX)
+#  define GT_OFF(x) (sizeof(int) == sizeof(z_off64_t) && (x) > INT_MAX)
 #else
 unsigned ZLIB_INTERNAL gz_intmax OF((void));
-#define GT_OFF(x) (sizeof(int) == sizeof(z_off64_t) && (x) > gz_intmax())
+#  define GT_OFF(x) (sizeof(int) == sizeof(z_off64_t) && (x) > gz_intmax())
 #endif

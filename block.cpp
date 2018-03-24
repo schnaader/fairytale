@@ -18,8 +18,8 @@
 */
 
 #include "block.h"
-#include "transformfactory.h"
 #include "crc32.h"
+#include "transformfactory.h"
 
 bool Block::attemptRevival(StorageManager* manager) {
   assert(data != nullptr && level > 0 && parent != nullptr && manager != nullptr);

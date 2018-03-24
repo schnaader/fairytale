@@ -57,10 +57,10 @@ bool FileStream::getTempFile() {
   wchar_t szTempFileName[MAX_PATH];
   if (GetTempFileName(L".", L"tmp", 0, szTempFileName) == 0)
     return false;
-#if 1
+#  if 1
   if (_wfopen_s(&file, szTempFileName, L"w+bTD") != 0)
     return false;
-#else
+#  else
   HANDLE hFile = CreateFile(szTempFileName, (GENERIC_READ | GENERIC_WRITE), 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_TEMPORARY | FILE_FLAG_DELETE_ON_CLOSE, NULL);
   if (hFile == INVALID_HANDLE_VALUE)
     return false;
@@ -73,7 +73,7 @@ bool FileStream::getTempFile() {
     CloseHandle(hFile);
     return false;
   }
-#endif
+#  endif
   return true;
 #else
   return (file = tmpfile()) != nullptr;

@@ -20,8 +20,8 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include "structs.h"
 #include "block.h"
+#include "structs.h"
 
 #define PARSER_PRIORITY_BITMAP 0
 #define PARSER_PRIORITY_MOD 1

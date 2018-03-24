@@ -18,12 +18,12 @@
 */
 
 #include "analyser.h"
+#include "parsers/bitmapparser.h"
+#include "parsers/ddsparser.h"
 #include "parsers/deflateparser.h"
 #include "parsers/jpegparser.h"
-#include "parsers/bitmapparser.h"
-#include "parsers/textparser.h"
-#include "parsers/ddsparser.h"
 #include "parsers/modparser.h"
+#include "parsers/textparser.h"
 
 Analyser::Analyser(const Array<Parsers>* parsers) : strict(0), fuzzy(0), data{ { 0 } } {
   size_t l = parsers->size();

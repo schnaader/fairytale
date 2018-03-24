@@ -20,8 +20,8 @@
 #ifndef HYBRIDSTREAM_H
 #define HYBRIDSTREAM_H
 
-#include "filestream.h"
 #include "array.h"
+#include "filestream.h"
 
 #define STREAM_PRIORITY_LOWEST 4
 #define STREAM_PRIORITY_LOW 3

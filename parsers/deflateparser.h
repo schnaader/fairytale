@@ -30,10 +30,10 @@
 #define BRUTE_ROUNDS (BRUTE_LOOKBACK >> 6)
 #define BUFFER(x) (window[(wndPos - WINDOW_LOOKBACK + (x)) & WINDOW_ACCESS_MASK])
 #if (BRUTE_LOOKBACK & WINDOW_ACCESS_MASK) || (BRUTE_LOOKBACK <= 64)
-#error BRUTE_LOOKBACK must be a power of 2 bigger than 64
+#  error BRUTE_LOOKBACK must be a power of 2 bigger than 64
 #endif
 #if (WINDOW_LOOKBACK > BRUTE_LOOKBACK) || (WINDOW_LOOKBACK < 32)
-#error WINDOW_LOOKBACK cannot be bigger than BRUTE_LOOKBACK and must be >=32
+#  error WINDOW_LOOKBACK cannot be bigger than BRUTE_LOOKBACK and must be >=32
 #endif
 
 template <const bool BruteMode> class DeflateParser : public Parser<ParserType::Strict> {
@@ -267,8 +267,8 @@ public:
   }
 };
 
-#undef WINDOW_SIZE
-#undef WINDOW_ACCESS_MASK
-#undef BUFFER
+#  undef WINDOW_SIZE
+#  undef WINDOW_ACCESS_MASK
+#  undef BUFFER
 
 #endif

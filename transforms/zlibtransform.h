@@ -20,9 +20,9 @@
 #ifndef ZLIBTRANSFORM_H
 #define ZLIBTRANSFORM_H
 
-#include "../transform.h"
-#include "../structs.h"
 #include <zlib.h>
+#include "../structs.h"
+#include "../transform.h"
 
 #define ZLIB_BLOCK_SIZE (0x10000ul)
 #define ZLIB_NUM_COMBINATIONS 81

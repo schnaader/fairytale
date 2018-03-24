@@ -20,17 +20,17 @@
 #ifndef BITMAPPARSER_H
 #define BITMAPPARSER_H
 
-#include "../parser.h"
 #include "../image.h"
+#include "../parser.h"
 
 #ifndef BI_RGB
-#define BI_RGB 0L
+#  define BI_RGB 0L
 #endif
 #ifndef BI_RLE8
-#define BI_RLE8 1L
+#  define BI_RLE8 1L
 #endif
 #ifndef BI_RLE4
-#define BI_RLE4 1L
+#  define BI_RLE4 1L
 #endif
 
 #define BITMAP_INFO_HEADER 0x28
