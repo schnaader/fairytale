@@ -1,6 +1,8 @@
-cmake_minimum_required(VERSION 2.8.9)
+cmake_minimum_required(VERSION 3.1)
 project (fairytale)
 option(BUILD_ZLIB "BUILD ZLIB" ON)
+
+set (CMAKE_CXX_STANDARD 11)
 
 ## SOURCES
 set(TRANSFORMSCPP transforms/zlibtransform.cpp)
