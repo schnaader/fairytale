@@ -23,5 +23,12 @@
 *.exe
 *.out
 *.app
+
+# CMAKE
+CMakeFiles/
+build/
+*.cmake
+CMakeCache.txt
+
 fairytale
 fairytale.dSYM
