@@ -22,7 +22,18 @@
 
 #include "storagemanager.h"
 
-enum class BlockType : uint8_t { DEFAULT=0, DEDUP, DEFLATE, JPEG, IMAGE, AUDIO, TEXT, DDS, Count };
+enum class BlockType : uint8_t
+{
+  DEFAULT = 0,
+  DEDUP,
+  DEFLATE,
+  JPEG,
+  IMAGE,
+  AUDIO,
+  TEXT,
+  DDS,
+  Count
+};
 
 class Block {
 public:

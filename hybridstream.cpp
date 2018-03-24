@@ -35,9 +35,9 @@ void HybridStream::freeFile() {
 }
 
 void HybridStream::allocate() {
-  assert(sizeLimit>0);
-  assert((int64_t)memLimit<=sizeLimit);
-  if (memLimit>0)
+  assert(sizeLimit > 0);
+  assert((int64_t)memLimit <= sizeLimit);
+  if (memLimit > 0)
     memory = new Array<uint8_t>(memLimit);
   else {
     file = new FileStream();
@@ -49,63 +49,63 @@ void HybridStream::allocate() {
 }
 
 HybridStream::HybridStream(const size_t maxMemUsage, const int64_t maxSize) :
-  file(nullptr), memory(nullptr), filepos(0), filesize(0), previousSize(0),
-  sizeLimit(maxSize), memLimit(MEM_LIMIT(maxMemUsage)), refCount(1), priority(STREAM_PRIORITY_NORMAL), keepAlive(false)
-{
+file(nullptr), memory(nullptr), filepos(0), filesize(0), previousSize(0), sizeLimit(maxSize), memLimit(MEM_LIMIT(maxMemUsage)), refCount(1), priority(STREAM_PRIORITY_NORMAL), keepAlive(false) {
   allocate();
 }
 
-HybridStream::~HybridStream() { close(); }
+HybridStream::~HybridStream() {
+  close();
+}
 
 void HybridStream::close() {
   freeMemory();
   freeFile();
-  if (previousSize==0)
+  if (previousSize == 0)
     previousSize = filesize;
-  filepos=0, filesize=0;
+  filepos = 0, filesize = 0;
 }
 
 void HybridStream::restore(const size_t maxMemUsage, const int64_t maxSize) {
-  assert(memory==nullptr);
-  assert(file==nullptr);
-  assert(filepos==0);
-  assert(filesize==0);
+  assert(memory == nullptr);
+  assert(file == nullptr);
+  assert(filepos == 0);
+  assert(filesize == 0);
   memLimit = MEM_LIMIT(maxMemUsage);
   sizeLimit = maxSize;
   allocate();
 }
 
-bool HybridStream::commitToFile(){
-  assert(file==nullptr);
-  assert(memory!=nullptr);
+bool HybridStream::commitToFile() {
+  assert(file == nullptr);
+  assert(memory != nullptr);
   file = new FileStream();
-  if (!file->getTempFile()){
+  if (!file->getTempFile()) {
     // panic: we failed to get physical storage
     close();
     return false;
   }
-  if (filesize>0)
+  if (filesize > 0)
     file->blockWrite(&((*memory)[0]), size_t(filesize));
   file->setPos(filepos);
   freeMemory();
   return true;
 }
 int HybridStream::getChar() {
-  if (filepos>=(off_t)filesize)
+  if (filepos >= (off_t)filesize)
     return EOF;
   if (memory)
     return (*memory)[filepos++];
   else {
-    assert(file!=nullptr);
+    assert(file != nullptr);
     return filepos++, file->getChar();
   }
 }
 
 void HybridStream::putChar(const uint8_t c) {
   if (memory) {
-    if (filepos<(off_t)memLimit) {
+    if (filepos < (off_t)memLimit) {
       (*memory)[filepos] = c;
-      if (filepos==(off_t)filesize)
+      if (filepos == (off_t)filesize)
         filesize++;
       filepos++;
       return;
@@ -115,10 +115,10 @@ void HybridStream::putChar(const uint8_t c) {
         throw ExhaustedStorageException();
     }
   }
-  if (filepos<(off_t)sizeLimit) {
-    assert(file!=nullptr);
+  if (filepos < (off_t)sizeLimit) {
+    assert(file != nullptr);
     file->putChar(c);
-    if (filepos==(off_t)filesize)
+    if (filepos == (off_t)filesize)
       filesize++;
     filepos++;
   }
@@ -130,32 +130,32 @@ void HybridStream::putChar(const uint8_t c) {
 
 size_t HybridStream::blockRead(void *ptr, const size_t count) {
   if (memory) {
-    if (count>0) {
-      uint64_t total = filesize-filepos;
-      if (total>uint64_t(count))
+    if (count > 0) {
+      uint64_t total = filesize - filepos;
+      if (total > uint64_t(count))
         total = uint64_t(count);
       memcpy(ptr, &((*memory)[filepos]), size_t(total));
-      filepos+=off_t(total);
+      filepos += off_t(total);
       return size_t(total);
     }
     else
       return 0;
   }
   else {
-    assert(file!=nullptr);
+    assert(file != nullptr);
     size_t total = file->blockRead(ptr, count);
-    filepos+=off_t(total);
+    filepos += off_t(total);
     return total;
   }
 }
 
 void HybridStream::blockWrite(void *ptr, const size_t count) {
   if (memory) {
-    if (filepos+count<=memLimit) {
-      if (count>0) {
+    if (filepos + count <= memLimit) {
+      if (count > 0) {
         memcpy(&((*memory)[filepos]), ptr, count);
-        filepos+=off_t(count);
-        if (filepos>(off_t)filesize)
+        filepos += off_t(count);
+        if (filepos > (off_t)filesize)
           filesize = filepos;
       }
       return;
@@ -165,11 +165,11 @@ void HybridStream::blockWrite(void *ptr, const size_t count) {
         throw ExhaustedStorageException();
     }
   }
-  if ((int64_t)(filepos+count)<=sizeLimit) {
-    assert(file!=nullptr);
+  if ((int64_t)(filepos + count) <= sizeLimit) {
+    assert(file != nullptr);
     file->blockWrite(ptr, count);
-    filepos+=off_t(count);
-    if (filepos>(off_t)filesize)
+    filepos += off_t(count);
+    if (filepos > (off_t)filesize)
       filesize = filepos;
   }
   else {
@@ -181,13 +181,13 @@ void HybridStream::blockWrite(void *ptr, const size_t count) {
 void HybridStream::setPos(const off_t newpos) {
   if (memory) {
     filepos = newpos;
-    if (filepos>(off_t)filesize && !commitToFile())
+    if (filepos > (off_t)filesize && !commitToFile())
       throw ExhaustedStorageException();
     else
       return;
   }
-  if (newpos<(off_t)sizeLimit) {
-    assert(file!=nullptr);
+  if (newpos < (off_t)sizeLimit) {
+    assert(file != nullptr);
     file->setPos(newpos);
     filepos = newpos;
   }
@@ -195,24 +195,42 @@ void HybridStream::setPos(const off_t newpos) {
 
 void HybridStream::setEnd() {
   filepos = off_t(filesize);
-  if (file!=nullptr)
+  if (file != nullptr)
     file->setEnd();
 }
 
-off_t HybridStream::curPos() { return (memory)?filepos:(assert(file!=nullptr), file->curPos()); }
+off_t HybridStream::curPos() {
+  return (memory) ? filepos : (assert(file != nullptr), file->curPos());
+}
 
-void HybridStream::incRefCount() { refCount++; }
+void HybridStream::incRefCount() {
+  refCount++;
+}
 
-void HybridStream::decRefCount() { refCount-=(refCount>0); }
+void HybridStream::decRefCount() {
+  refCount -= (refCount > 0);
+}
 
-int HybridStream::getPriority() { return priority; }
+int HybridStream::getPriority() {
+  return priority;
+}
 
-void HybridStream::setPriority(const int p) { priority = p; }
+void HybridStream::setPriority(const int p) {
+  priority = p;
+}
 
-void HybridStream::setPurgeStatus(const bool allowed) { keepAlive = !allowed; }
+void HybridStream::setPurgeStatus(const bool allowed) {
+  keepAlive = !allowed;
+}
 
-size_t HybridStream::getMemUsage() { return memLimit; }
+size_t HybridStream::getMemUsage() {
+  return memLimit;
+}
 
-int64_t HybridStream::getSize() { return filesize; }
+int64_t HybridStream::getSize() {
+  return filesize;
+}
 
-int64_t HybridStream::getPreviousSize() { return previousSize; }
+int64_t HybridStream::getPreviousSize() {
+  return previousSize;
+}

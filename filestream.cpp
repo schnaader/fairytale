@@ -19,60 +19,64 @@
 
 #include "filestream.h"
 
-FileStream::FileStream() { file = nullptr, name = nullptr; }
+FileStream::FileStream() {
+  file = nullptr, name = nullptr;
+}
 
-FileStream::~FileStream() { close(); }
+FileStream::~FileStream() {
+  close();
+}
 
 bool FileStream::open(const char *filename) {
-  assert(file==nullptr);
-  if (name==nullptr) {
-    size_t len = strlen(filename)+1;
+  assert(file == nullptr);
+  if (name == nullptr) {
+    size_t len = strlen(filename) + 1;
     name = new char[len]();
     memcpy(name, filename, len);
   }
 #ifdef WINDOWS
-  return fopen_s(&file, filename, "rb")==0;
+  return fopen_s(&file, filename, "rb") == 0;
 #else
-  return (file = fopen(filename, "rb"))!=nullptr;
+  return (file = fopen(filename, "rb")) != nullptr;
 #endif
 }
 
 bool FileStream::create(const char *filename) {
-  assert(file==nullptr);
-  assert(name==nullptr);
+  assert(file == nullptr);
+  assert(name == nullptr);
 #ifdef WINDOWS
-  return fopen_s(&file, filename, "wb+")!=0;
+  return fopen_s(&file, filename, "wb+") != 0;
 #else
-  return (file = fopen(filename, "wb+"))!=nullptr;
+  return (file = fopen(filename, "wb+")) != nullptr;
 #endif
 }
 
 bool FileStream::getTempFile() {
-  assert(file==nullptr);
+  assert(file == nullptr);
 #ifdef WINDOWS
   wchar_t szTempFileName[MAX_PATH];
-  if (GetTempFileName(L".", L"tmp", 0, szTempFileName)==0)
+  if (GetTempFileName(L".", L"tmp", 0, szTempFileName) == 0)
     return false;
 #if 1
-  if (_wfopen_s(&file, szTempFileName, L"w+bTD")!=0)
+  if (_wfopen_s(&file, szTempFileName, L"w+bTD") != 0)
     return false;
 #else
-  HANDLE hFile = CreateFile(szTempFileName, (GENERIC_READ|GENERIC_WRITE), 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_TEMPORARY|FILE_FLAG_DELETE_ON_CLOSE, NULL);
-  if (hFile==INVALID_HANDLE_VALUE)
+  HANDLE hFile = CreateFile(szTempFileName, (GENERIC_READ | GENERIC_WRITE), 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_TEMPORARY | FILE_FLAG_DELETE_ON_CLOSE, NULL);
+  if (hFile == INVALID_HANDLE_VALUE)
     return false;
   int nHandle = _open_osfhandle((intptr_t)hFile, _O_APPEND);
   if (nHandle == -1) {
     CloseHandle(hFile);
     return false;
   }
-  if ((file = _wfdopen(nHandle, L"w+bTD"))==nullptr) {
+  if ((file = _wfdopen(nHandle, L"w+bTD")) == nullptr) {
     CloseHandle(hFile);
     return false;
   }
 #endif
   return true;
 #else
-  return (file = tmpfile())!=nullptr;
+  return (file = tmpfile()) != nullptr;
 #endif
 }
 
@@ -86,22 +90,46 @@ void FileStream::close() {
   }
 }
 
-size_t FileStream::blockRead(void *ptr, const size_t count) { assert(file!=nullptr); return fread(ptr, 1, count, file); }
+size_t FileStream::blockRead(void *ptr, const size_t count) {
+  assert(file != nullptr);
+  return fread(ptr, 1, count, file);
+}
 
-void FileStream::blockWrite(void *ptr, const size_t count) { assert(file!=nullptr); if (fwrite(ptr, 1, count, file)!=count) throw ExhaustedStorageException(); }
+void FileStream::blockWrite(void *ptr, const size_t count) {
+  assert(file != nullptr);
+  if (fwrite(ptr, 1, count, file) != count)
+    throw ExhaustedStorageException();
+}
 
-void FileStream::setPos(const off_t newpos) { assert(file!=nullptr); fseeko(file, newpos, SEEK_SET); }
+void FileStream::setPos(const off_t newpos) {
+  assert(file != nullptr);
+  fseeko(file, newpos, SEEK_SET);
+}
 
-void FileStream::setEnd() { assert(file!=nullptr); fseeko(file, 0, SEEK_END); }
+void FileStream::setEnd() {
+  assert(file != nullptr);
+  fseeko(file, 0, SEEK_END);
+}
 
-off_t FileStream::curPos() { assert(file!=nullptr); return off_t(ftello(file)); }
+off_t FileStream::curPos() {
+  assert(file != nullptr);
+  return off_t(ftello(file));
+}
 
-bool FileStream::wakeUp() { assert(dormant()); return open(name); }
+bool FileStream::wakeUp() {
+  assert(dormant());
+  return open(name);
+}
 
-void FileStream::goToSleep() { assert(!dormant()); if (file) { fclose(file), file = NULL; } }
+void FileStream::goToSleep() {
+  assert(!dormant());
+  if (file) {
+    fclose(file), file = NULL;
+  }
+}
 
 int64_t FileStream::getSize() {
-  assert(file!=nullptr);
+  assert(file != nullptr);
   off_t prev = curPos();
   setEnd();
   off_t size = curPos();

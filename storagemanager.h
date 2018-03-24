@@ -22,11 +22,11 @@
 
 #include "hybridstream.h"
 
-#define MEM_BLOCK_SIZE               (0x100ull)     //256 bytes
-#define DEFAULT_TEMP_MEM_PER_STREAM  (0x0400000ull) //4MB
-#define FORCE_PURGE_MAXIMUM          8u
-#define PURGE_SLIDING_WINDOW         4
-#define SIZE_BLOCKS(x) ((x)+(MEM_BLOCK_SIZE-1))&(~(MEM_BLOCK_SIZE-1));
+#define MEM_BLOCK_SIZE (0x100ull)                  //256 bytes
+#define DEFAULT_TEMP_MEM_PER_STREAM (0x0400000ull) //4MB
+#define FORCE_PURGE_MAXIMUM 8u
+#define PURGE_SLIDING_WINDOW 4
+#define SIZE_BLOCKS(x) ((x) + (MEM_BLOCK_SIZE - 1)) & (~(MEM_BLOCK_SIZE - 1));
 
 class StorageManager final {
 private:
@@ -38,6 +38,7 @@ private:
   size_t pruneIndex;
   void doRefBiasedPurge(const int64_t storageRequested);
   void doForcedPurge(uint32_t purgeRequested = FORCE_PURGE_MAXIMUM);
+
 public:
   StorageManager(const size_t maxMemUsage, const int64_t maxTotalUsage);
   ~StorageManager();

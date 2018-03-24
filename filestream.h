@@ -22,10 +22,11 @@
 
 #include "stream.h"
 
-class FileStream: public Stream {
+class FileStream : public Stream {
 protected:
-  FILE* file;
-  char* name;
+  FILE *file;
+  char *name;
+
 public:
   FileStream();
   ~FileStream();
@@ -33,15 +34,27 @@ public:
   bool create(const char *filename);
   bool getTempFile();
   void close();
-  inline int getChar() { assert(file!=nullptr); return fgetc(file); }
-  inline void putChar(const uint8_t c) { assert(file!=nullptr); if (fputc(c, file)==EOF) throw ExhaustedStorageException(); }
+  inline int getChar() {
+    assert(file != nullptr);
+    return fgetc(file);
+  }
+  inline void putChar(const uint8_t c) {
+    assert(file != nullptr);
+    if (fputc(c, file) == EOF)
+      throw ExhaustedStorageException();
+  }
   size_t blockRead(void *ptr, const size_t count);
   void blockWrite(void *ptr, const size_t count);
   void setPos(const off_t newpos);
   void setEnd();
   off_t curPos();
-  inline bool eof() { assert(file!=nullptr); return feof(file)!=0; }
-  inline bool dormant() { return (file==nullptr) && (name!=nullptr); }
+  inline bool eof() {
+    assert(file != nullptr);
+    return feof(file) != 0;
+  }
+  inline bool dormant() {
+    return (file == nullptr) && (name != nullptr);
+  }
   bool wakeUp();
   void goToSleep();
   int64_t getSize();
