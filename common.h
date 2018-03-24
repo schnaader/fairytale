@@ -1,7 +1,7 @@
 /*
   This file is part of the Fairytale project
 
-  Copyright (C) 2018 Márcio Pais
+  Copyright (C) 2018 MÃ¡rcio Pais
 
   This library is free software: you can redistribute it and/or modify
   it under the terms of the GNU Lesser General Public License as published by
@@ -120,7 +120,9 @@ enum class Endian { Little, Big };
   #define CreateFile  CreateFileW
 #endif
 
-//#define VERBOSE
+#ifndef WINDOWS
+  #define VERBOSE
+#endif
 #ifdef VERBOSE
   #define LOG(fmt, ...) do { printf(fmt, ##__VA_ARGS__); } while (0)
 #else

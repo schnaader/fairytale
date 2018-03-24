@@ -31,6 +31,7 @@ private:
 public:
   explicit Analyser(const Array<Parsers> *parsers);
   bool analyse(Block* block, StorageManager* manager, Deduper* deduper = nullptr);
+  ~Analyser();
 };
 
 #endif

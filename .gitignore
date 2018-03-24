@@ -30,3 +30,5 @@ build/
 *.cmake
 CMakeCache.txt
 
+fairytale
+fairytale.dSYM
