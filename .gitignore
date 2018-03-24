@@ -29,6 +29,7 @@ CMakeFiles/
 build/
 *.cmake
 CMakeCache.txt
+Makefile
 
 fairytale
 fairytale.dSYM
