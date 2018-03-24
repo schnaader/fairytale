@@ -25,12 +25,12 @@
 
 class TransformFactory {
 public:
-  static Transform* createTransform(const BlockType type) {
-    switch (type) {
-      case BlockType::DEFLATE: return new zLibTransform();
-      default: return nullptr;
-    }
-  }
+	static Transform* createTransform(const BlockType type) {
+		switch (type) {
+			case BlockType::DEFLATE: return new zLibTransform();
+			default: return nullptr;
+		}
+	}
 };
 
 #endif

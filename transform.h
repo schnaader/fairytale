@@ -24,10 +24,10 @@
 
 class Transform {
 public:
-  virtual ~Transform() {}
-  virtual HybridStream* attempt(Stream* input, StorageManager* manager, void* info = nullptr) = 0;
-  virtual bool apply(Stream* input, Stream* output, void* info = nullptr) = 0;
-  virtual bool undo(Stream* input, Stream* output, void* info = nullptr) = 0;
+	virtual ~Transform() {}
+	virtual HybridStream* attempt(Stream* input, StorageManager* manager, void* info = nullptr) = 0;
+	virtual bool apply(Stream* input, Stream* output, void* info = nullptr) = 0;
+	virtual bool undo(Stream* input, Stream* output, void* info = nullptr) = 0;
 };
 
 #endif

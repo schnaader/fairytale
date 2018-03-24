@@ -23,38 +23,25 @@
 #include "structs.h"
 #include "block.h"
 
-#define PARSER_PRIORITY_BITMAP  0
-#define PARSER_PRIORITY_MOD     1
-#define PARSER_PRIORITY_DDS     2
+#define PARSER_PRIORITY_BITMAP 0
+#define PARSER_PRIORITY_MOD 1
+#define PARSER_PRIORITY_DDS 2
 #define PARSER_PRIORITY_DEFLATE 3
-#define PARSER_PRIORITY_JPEG    4
-#define PARSER_PRIORITY_TEXT   -1
+#define PARSER_PRIORITY_JPEG 4
+#define PARSER_PRIORITY_TEXT -1
 
-enum class ParserType {
-  Strict,
-  Fuzzy
-};
+enum class ParserType { Strict, Fuzzy };
 
-enum class Parsers : size_t {
-  DEFLATE,
-  DEFLATE_BRUTE,
-  JPEG,
-  JPEG_PROGRESSIVE,
-  BITMAP,
-  BITMAP_NOHDR,
-  MOD,
-  DDS,
-  TEXT,
-  Count
-};
+enum class Parsers : size_t { DEFLATE, DEFLATE_BRUTE, JPEG, JPEG_PROGRESSIVE, BITMAP, BITMAP_NOHDR, MOD, DDS, TEXT, Count };
 
 template <const ParserType type> class Parser {
 protected:
-  int priority;
+	int priority;
+
 public:
-  virtual ~Parser() {}
-  virtual bool parse(Block* block, ParseData* data, StorageManager* manager) = 0;
-  int getPriority() { return priority; }
+	virtual ~Parser() {}
+	virtual bool parse(Block* block, ParseData* data, StorageManager* manager) = 0;
+	int getPriority() { return priority; }
 };
 
 #endif

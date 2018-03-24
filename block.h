@@ -22,25 +22,27 @@
 
 #include "storagemanager.h"
 
-enum class BlockType : uint8_t { DEFAULT=0, DEDUP, DEFLATE, JPEG, IMAGE, AUDIO, TEXT, DDS, Count };
+enum class BlockType : uint8_t { DEFAULT = 0, DEDUP, DEFLATE, JPEG, IMAGE, AUDIO, TEXT, DDS, Count };
 
 class Block {
 public:
-  int64_t id, length;
-  off_t offset;
-  Stream* data;
-  Block *parent, *next, *child;
-  void* info;
-  BlockType type;
-  uint32_t refCount, hash;
-  uint8_t level;
-  bool done, hashed;
-  bool attemptRevival(StorageManager* manager);
-  Block* segmentAround(const off_t pos, const int64_t size, const BlockType newType, void* blInfo = nullptr, const size_t sizeInfo = 0, Stream* childStream = nullptr, const BlockType childType = BlockType::DEFAULT, const bool childDone = false, void* childInfo = nullptr, const size_t childSizeInfo = 0);
-  Block* nextAtLevel(const uint32_t l, const bool skipDone = true);
-  void freeInfo();
-  void freeChilds(StorageManager* manager);
-  void calculateHash();
+	int64_t id, length;
+	off_t offset;
+	Stream* data;
+	Block *parent, *next, *child;
+	void* info;
+	BlockType type;
+	uint32_t refCount, hash;
+	uint8_t level;
+	bool done, hashed;
+	bool attemptRevival(StorageManager* manager);
+	Block* segmentAround(
+	const off_t pos, const int64_t size, const BlockType newType, void* blInfo = nullptr, const size_t sizeInfo = 0, Stream* childStream = nullptr,
+	const BlockType childType = BlockType::DEFAULT, const bool childDone = false, void* childInfo = nullptr, const size_t childSizeInfo = 0);
+	Block* nextAtLevel(const uint32_t l, const bool skipDone = true);
+	void freeInfo();
+	void freeChilds(StorageManager* manager);
+	void calculateHash();
 };
 
 #endif
