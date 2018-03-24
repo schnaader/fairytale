@@ -25,39 +25,39 @@
 #define ZLIB_MAX_PENALTY_BYTES 64
 
 struct DeflateInfo {
-  int zlibParameters;
-  uint8_t zlibCombination;
-  uint8_t zlibWindow;
-  uint8_t penaltyBytesUsed;
-  uint8_t penaltyBytes[ZLIB_MAX_PENALTY_BYTES];
-  uint32_t posDiff[ZLIB_MAX_PENALTY_BYTES];
-  uint32_t lengthIn, lengthOut;
+	int zlibParameters;
+	uint8_t zlibCombination;
+	uint8_t zlibWindow;
+	uint8_t penaltyBytesUsed;
+	uint8_t penaltyBytes[ZLIB_MAX_PENALTY_BYTES];
+	uint32_t posDiff[ZLIB_MAX_PENALTY_BYTES];
+	uint32_t lengthIn, lengthOut;
 };
 
 struct ImageInfo {
-  int32_t width, height, stride;
-  uint8_t bpp;
-  bool grayscale;
+	int32_t width, height, stride;
+	uint8_t bpp;
+	bool grayscale;
 };
 
 struct AudioInfo {
-  uint8_t channels, bps, mode;
+	uint8_t channels, bps, mode;
 };
 
 struct TextInfo {
-  off_t start;
-  uint32_t lastSpace;
-  uint32_t lastNL;
-  uint32_t wordLength;
-  uint32_t misses;
-  uint32_t missCount;
+	off_t start;
+	uint32_t lastSpace;
+	uint32_t lastNL;
+	uint32_t wordLength;
+	uint32_t misses;
+	uint32_t missCount;
 };
 
 struct ParseData {
-  DeflateInfo deflate;
-  ImageInfo image;
-  AudioInfo audio;
-  TextInfo text;
+	DeflateInfo deflate;
+	ImageInfo image;
+	AudioInfo audio;
+	TextInfo text;
 };
 
 #endif

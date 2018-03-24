@@ -22,30 +22,31 @@
 
 #include "hybridstream.h"
 
-#define MEM_BLOCK_SIZE               (0x100ull)     //256 bytes
-#define DEFAULT_TEMP_MEM_PER_STREAM  (0x0400000ull) //4MB
-#define FORCE_PURGE_MAXIMUM          8u
-#define PURGE_SLIDING_WINDOW         4
-#define SIZE_BLOCKS(x) ((x)+(MEM_BLOCK_SIZE-1))&(~(MEM_BLOCK_SIZE-1));
+#define MEM_BLOCK_SIZE (0x100ull)									 //256 bytes
+#define DEFAULT_TEMP_MEM_PER_STREAM (0x0400000ull) //4MB
+#define FORCE_PURGE_MAXIMUM 8u
+#define PURGE_SLIDING_WINDOW 4
+#define SIZE_BLOCKS(x) ((x) + (MEM_BLOCK_SIZE - 1)) & (~(MEM_BLOCK_SIZE - 1));
 
 class StorageManager final {
 private:
-  Array<HybridStream*> streams;
-  struct {
-    size_t memory;
-    int64_t total;
-  } available, limit;
-  size_t pruneIndex;
-  void doRefBiasedPurge(const int64_t storageRequested);
-  void doForcedPurge(uint32_t purgeRequested = FORCE_PURGE_MAXIMUM);
+	Array<HybridStream*> streams;
+	struct {
+		size_t memory;
+		int64_t total;
+	} available, limit;
+	size_t pruneIndex;
+	void doRefBiasedPurge(const int64_t storageRequested);
+	void doForcedPurge(uint32_t purgeRequested = FORCE_PURGE_MAXIMUM);
+
 public:
-  StorageManager(const size_t maxMemUsage, const int64_t maxTotalUsage);
-  ~StorageManager();
-  int64_t capacity();
-  bool wakeUp(FileStream* stream);
-  void disposeOf(const HybridStream* stream);
-  void UpdateStorageBudget(HybridStream* stream, const bool consuming = true);
-  HybridStream* getTempStorage(int64_t storageRequested, HybridStream* stream = nullptr);
+	StorageManager(const size_t maxMemUsage, const int64_t maxTotalUsage);
+	~StorageManager();
+	int64_t capacity();
+	bool wakeUp(FileStream* stream);
+	void disposeOf(const HybridStream* stream);
+	void UpdateStorageBudget(HybridStream* stream, const bool consuming = true);
+	HybridStream* getTempStorage(int64_t storageRequested, HybridStream* stream = nullptr);
 };
 
 #endif

@@ -22,16 +22,17 @@
 
 #include "../parser.h"
 
-#define MIN_TEXT_SIZE   0x400 //1KB
-#define MAX_TEXT_MISSES 2 //number of misses in last 32 bytes before resetting
+#define MIN_TEXT_SIZE 0x400 //1KB
+#define MAX_TEXT_MISSES 2		//number of misses in last 32 bytes before resetting
 
 class TextParser : public Parser<ParserType::Fuzzy> {
 private:
-  uint8_t buffer[GENERIC_BUFFER_SIZE];
-  off_t position;
+	uint8_t buffer[GENERIC_BUFFER_SIZE];
+	off_t position;
+
 public:
-  explicit TextParser(void);
-  bool parse(Block* block, ParseData* data, StorageManager* manager);
+	explicit TextParser(void);
+	bool parse(Block* block, ParseData* data, StorageManager* manager);
 };
 
 #endif

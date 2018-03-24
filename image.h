@@ -24,36 +24,35 @@
 
 class Image {
 public:
-  static bool isGrayscalePalette(Stream* input, const int n = 256, const bool isRGBA = false) {
-    off_t offset = input->curPos();
-    int stride=3+(int)isRGBA, res=(n>0)<<8, order=1;
-    for (int i=0; i<n*stride && (res>>8)>0; i++) {
-      int b = input->getChar();
-      if (b==EOF){
-        res = 0;
-        break;
-      }
-      if (i==0) {
-        res = 0x100|b;
-        order = 1-2*(b>0);
-        continue;
-      }
+	static bool isGrayscalePalette(Stream* input, const int n = 256, const bool isRGBA = false) {
+		off_t offset = input->curPos();
+		int stride = 3 + (int)isRGBA, res = (n > 0) << 8, order = 1;
+		for (int i = 0; i < n * stride && (res >> 8) > 0; i++) {
+			int b = input->getChar();
+			if (b == EOF) {
+				res = 0;
+				break;
+			}
+			if (i == 0) {
+				res = 0x100 | b;
+				order = 1 - 2 * (b > 0);
+				continue;
+			}
 
-      //"j" is the index of the current byte in this color entry
-      int j = i%stride;
-      if (j==0){
-        // load first component of this entry
-        res = (res&((b-(res&0xFF)==order)<<8));
-        res|=(res)?b:0;
-      }
-      else if (j==3)
-        res&=((b==0 || b==0xFF)<<9)-1; // alpha/attribute component must be zero or 0xFF
-      else
-        res&=((b==(res&0xFF))<<9)-1;
-    }
-    input->setPos(offset);
-    return (res>>8)>0;
-  }
+			//"j" is the index of the current byte in this color entry
+			int j = i % stride;
+			if (j == 0) {
+				// load first component of this entry
+				res = (res & ((b - (res & 0xFF) == order) << 8));
+				res |= (res) ? b : 0;
+			} else if (j == 3)
+				res &= ((b == 0 || b == 0xFF) << 9) - 1; // alpha/attribute component must be zero or 0xFF
+			else
+				res &= ((b == (res & 0xFF)) << 9) - 1;
+		}
+		input->setPos(offset);
+		return (res >> 8) > 0;
+	}
 };
 
 #endif

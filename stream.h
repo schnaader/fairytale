@@ -24,17 +24,17 @@
 
 class Stream {
 public:
-  virtual ~Stream() {}
-  virtual void close() = 0;
-  virtual int getChar() = 0;
-  virtual void putChar(const uint8_t c) = 0;
-  virtual size_t blockRead(void *ptr, const size_t count) = 0;
-  virtual void blockWrite(void *ptr, const size_t count) = 0;
-  virtual void setPos(const off_t newpos) = 0;
-  virtual void setEnd() = 0;
-  virtual off_t curPos() = 0;
-  virtual bool eof() = 0;
-  virtual int64_t getSize() = 0;
+	virtual ~Stream() {}
+	virtual void close() = 0;
+	virtual int getChar() = 0;
+	virtual void putChar(const uint8_t c) = 0;
+	virtual size_t blockRead(void *ptr, const size_t count) = 0;
+	virtual void blockWrite(void *ptr, const size_t count) = 0;
+	virtual void setPos(const off_t newpos) = 0;
+	virtual void setEnd() = 0;
+	virtual off_t curPos() = 0;
+	virtual bool eof() = 0;
+	virtual int64_t getSize() = 0;
 };
 
 #endif

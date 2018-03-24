@@ -25,13 +25,14 @@
 
 class Analyser {
 private:
-  Array<Parser<ParserType::Strict>*> strict;
-  Array<Parser<ParserType::Fuzzy>*> fuzzy;
-  ParseData data;
+	Array<Parser<ParserType::Strict>*> strict;
+	Array<Parser<ParserType::Fuzzy>*> fuzzy;
+	ParseData data;
+
 public:
-  explicit Analyser(const Array<Parsers> *parsers);
-  bool analyse(Block* block, StorageManager* manager, Deduper* deduper = nullptr);
-  ~Analyser();
+	explicit Analyser(const Array<Parsers>* parsers);
+	bool analyse(Block* block, StorageManager* manager, Deduper* deduper = nullptr);
+	~Analyser();
 };
 
 #endif
