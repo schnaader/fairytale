@@ -23,3 +23,5 @@
 *.exe
 *.out
 *.app
+fairytale
+fairytale.dSYM
