@@ -23,12 +23,13 @@
 #include "../parser.h"
 
 #define WINDOW_SIZE 0x800
-#define WINDOW_ACCESS_MASK (WINDOW_SIZE-1)
+#define WINDOW_ACCESS_MASK (WINDOW_SIZE - 1)
 
 class ModParser : public Parser<ParserType::Strict> {
 private:
   uint8_t buffer[GENERIC_BUFFER_SIZE], window[WINDOW_SIZE];
   off_t index, position;
+
 public:
   explicit ModParser(void);
   bool parse(Block* block, ParseData* data, StorageManager* manager);

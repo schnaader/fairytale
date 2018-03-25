@@ -23,8 +23,8 @@
 #include "block.h"
 
 #define DEDUP_HASH_BITS 16
-#define DEDUP_HASH_SIZE (1<<DEDUP_HASH_BITS)
-#define DEDUP_HASH_MASK (DEDUP_HASH_SIZE-1)
+#define DEDUP_HASH_SIZE (1 << DEDUP_HASH_BITS)
+#define DEDUP_HASH_MASK (DEDUP_HASH_SIZE - 1)
 
 class Deduper {
 private:
@@ -35,6 +35,7 @@ private:
   Array<LinkedList> table;
   Array<uint8_t> buffer;
   bool match(Block* block1, Block* block2, StorageManager* manager);
+
 public:
   explicit Deduper(void);
   ~Deduper();

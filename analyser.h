@@ -28,8 +28,9 @@ private:
   Array<Parser<ParserType::Strict>*> strict;
   Array<Parser<ParserType::Fuzzy>*> fuzzy;
   ParseData data;
+
 public:
-  explicit Analyser(const Array<Parsers> *parsers);
+  explicit Analyser(const Array<Parsers>* parsers);
   bool analyse(Block* block, StorageManager* manager, Deduper* deduper = nullptr);
   ~Analyser();
 };

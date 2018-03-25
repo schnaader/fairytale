@@ -1,0 +1,16 @@
+// this is a template for Visual Studio workspace settings
+// follow this step-by-step instructions to use:
+
+// - install the ClangFormat extension from https://marketplace.visualstudio.com/items?itemName=LLVMExtensions.ClangFormat
+// - adjust the file path to clang-format.exe below ("clang-format.executable") to your local environment
+// - copy this file to ".vscode/settings.json"
+// - open the fairytale folder to use the settings in Visual Studio Code
+
+// - you can test success by changing indentation in a .cpp/.h file and saving,
+//   the indentation should be automatically corrected
+
+{
+    "files.encoding": "windows1252",
+    "editor.formatOnSave": true,
+    "clang-format.executable": "C:/Program Files/LLVM/bin/clang-format.exe",
+}
