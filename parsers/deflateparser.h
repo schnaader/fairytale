@@ -1,7 +1,7 @@
 /*
   This file is part of the Fairytale project
 
-  Copyright (C) 2018 Márcio Pais
+  Copyright (C) 2018 MÃ¡rcio Pais
 
   This library is free software: you can redistribute it and/or modify
   it under the terms of the GNU Lesser General Public License as published by
@@ -41,6 +41,7 @@ private:
   zLibTransform transform;
   uint8_t buffer[GENERIC_BUFFER_SIZE];
   uint8_t window[WINDOW_SIZE], blockIn[ZLIB_BLOCK_SIZE], blockOut[ZLIB_BLOCK_SIZE];
+  bool skipPos[BRUTE_LOOKBACK];
   int histogram[256];
   struct gZip {
     enum Flags
@@ -61,6 +62,7 @@ private:
     memset(&blockIn[0], 0, ZLIB_BLOCK_SIZE);
     memset(&blockOut[0], 0, ZLIB_BLOCK_SIZE);
     memset(&window[0], 0, WINDOW_SIZE);
+    memset(&skipPos[0], 0, BRUTE_LOOKBACK * sizeof(bool));
     memset(&histogram[0], 0, 256 * sizeof(int));
     memset(&gzip, 0, sizeof(gZip));
     wndPos = 0, zipPos = 0;
@@ -77,6 +79,10 @@ private:
     wndPos = (wndPos + 1) & WINDOW_ACCESS_MASK;
   }
   void doBruteModeSearch(bool* result) {
+    if (skipPos[wndPos]) {
+      skipPos[wndPos] = false;
+      return;
+    }
     uint8_t BTYPE = (window[wndPos] & 7) >> 1;
     if (((*result) = (BTYPE == 1 || BTYPE == 2))) {
       int maximum = 0, used = 0, offset = wndPos;
@@ -172,8 +178,10 @@ public:
           doBruteModeSearch(&valid);
         bool brute = (data->deflate.zlibParameters == -1 && index != zipPos && index != gzip.offset);
 
-        if (valid || (zipPos > 0 && index == zipPos) || (gzip.offset > 0 && index == gzip.offset))
+        if (valid || (zipPos > 0 && index == zipPos) || (gzip.offset > 0 && index == gzip.offset)) {
+          skipPos[(wndPos - WINDOW_LOOKBACK) & WINDOW_ACCESS_MASK] = !brute;
           getStreamInfo(block, &data->deflate, brute);
+        }
 
         if (data->deflate.lengthIn > 0) {
           off_t offset = position - (brute ? BRUTE_LOOKBACK : WINDOW_LOOKBACK);
@@ -267,8 +275,8 @@ public:
   }
 };
 
-#  undef WINDOW_SIZE
-#  undef WINDOW_ACCESS_MASK
-#  undef BUFFER
+#undef WINDOW_SIZE
+#undef WINDOW_ACCESS_MASK
+#undef BUFFER
 
 #endif
