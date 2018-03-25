@@ -1,7 +1,7 @@
 /*
   This file is part of the Fairytale project
 
-  Copyright (C) 2018 Márcio Pais
+  Copyright (C) 2018 MÃ¡rcio Pais
 
   This library is free software: you can redistribute it and/or modify
   it under the terms of the GNU Lesser General Public License as published by
@@ -69,7 +69,7 @@ private:
   void clearBuffers();
   void setupStream(z_streamp strm);
   inline bool validate(const uint32_t in, const uint32_t out, const uint8_t penalty) {
-    return (penalty < ZLIB_MAX_PENALTY_BYTES) && (in > ((16u + penalty * 5u) * 2u) || in > 512u);
+    return (penalty < ZLIB_MAX_PENALTY_BYTES) && (int64_t(in * 8) < int64_t(out * 9 + 8 + penalty * 5) || in > 512u);
   }
 
 public:
