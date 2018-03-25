@@ -30,5 +30,8 @@ build/
 *.cmake
 CMakeCache.txt
 
+# Visual Studio Code
+.vscode/settings.json
+
 fairytale
 fairytale.dSYM

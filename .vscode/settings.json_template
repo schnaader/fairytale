@@ -1,0 +1,10 @@
+// this is a template for Visual Studio workspace settings
+// adjust the file path to clang-format.exe to your local environment
+// then copy the file to "settings.json" and open the fairytale folder
+// to use the settings in Visual Studio Code
+
+{
+    "files.encoding": "windows1252",
+    "editor.formatOnSave": true,
+    "clang-format.executable": "C:/Program Files/LLVM/bin/clang-format.exe",
+}
