@@ -1,4 +1,5 @@
 #include "analyser.h"
+#include "contrib/CLI11/CLI11.hpp"
 
 struct Stats {
   uint64_t deduped, zlib, jpeg, img1, img4, img8, img8gray, img24, img32, text, dds, mod;
@@ -151,39 +152,45 @@ int main(int argc, char** argv) {
 #ifdef WINDOWS
   _setmaxstdio(2048);
 #endif
-  printf("Fairytale Prototype v0.016 by M. Pais, 2018\n\n");
-  if (argc < 4 || argc > 7 || strlen(argv[1]) != 4 || (!isdigit(argv[1][0])) || (!isdigit(argv[1][1])) || (argv[1][0] > argv[1][1]) || ((argv[1][2] & 0xDF) != 'B') || ((argv[1][3] & 0xDF) != 'D')) {
-    printf("Syntax: fairytale MTBD output_file input_files\n");
-    printf("M: Memory cache coefficient, [0..9] -> [4MB..2048MB]\n");
-    printf("T: Total storage coefficient, [0..9] -> [8MB..4096MB]\n");
-    printf("B: Brute force DEFLATE streams [B -> on, b-> off]\n");
-    printf("D: Perform deduplication stage [D -> on, d-> off]\n");
-    printf("M<=T\n");
-    getchar();
-    return 0;
-  }
+  CLI::App app{"Fairytale Prototype v0.016 by M. Pais, 2018"};
+  int memory = 9;
+  int total_storage = 9;
+  bool brute_mode = false;
+  bool deduplication = false;
+  bool verbose = false;
+  std::string output_file;
+  std::vector<std::string> input_files;
+  app.add_option("-m,--memory", memory, "Memory cache coefficient, [0..9] -> [4MB..2048MB]", 9);
+  app.add_option("-t,--total-storage", total_storage, "Total storage coefficient, [0..9] -> [8MB..4096MB]", 9);
+  app.add_flag("-b,--brute", brute_mode, "Brute force DEFLATE streams");
+  app.add_flag("-d,--deduplication", deduplication, "Perform deduplication stage");
+  app.add_flag("-v,--verbose", verbose, "Enable verbose output");
+  app.add_option("output_file,-o", output_file, "output_file")->required();
+  app.add_option("input_files,-i,", input_files, "input_files")->required();
+  CLI11_PARSE(app, argc, argv);
+
   clock_t start_time = clock();
   FileStream output;
-  output.create(argv[2]);
+  output.create(output_file.c_str());
 
-  Array<FileStream*> input(argc - 3);
+  Array<FileStream*> input(input_files.size());
   Block* block = new Block{ 0 };
   Block* root = block;
-  for (int i = 3; i < argc; i++) {
-    input[i - 3] = new FileStream;
-    if (!input[i - 3]->open(argv[i])) {
-      printf("File not found: %s\n", argv[i]);
+  for (size_t i = 0; i < input_files.size(); i++) {
+    input[i] = new FileStream;
+    if (!input[i]->open(input_files[i].c_str())) {
+      printf("File not found: %s\n", input_files[i].c_str());
       getchar();
       return 0;
     }
-    block->data = input[i - 3];
+    block->data = input[i];
     block->length = block->data->getSize();
-    printf("Loaded %s, (%" PRIu64 " bytes), hashing... ", argv[i], block->length);
+    printf("Loaded %s, (%" PRIu64 " bytes), hashing... ", input_files[i].c_str(), block->length);
     block->calculateHash();
     printf("done\n");
-    if (i > 3)
-      input[i - 3]->goToSleep();
-    if (i + 1 < argc) {
+    if (i > 0)
+      input[i]->goToSleep();
+    if (i + 1 < input_files.size()) {
       block->next = new Block{ 0 };
       block = block->next;
     }
@@ -191,17 +198,17 @@ int main(int argc, char** argv) {
   block->next = nullptr;
   block = root;
 
-  StorageManager pool(1ull << (22 + (argv[1][0] & 0xF)), 1ull << (23 + (argv[1][1] & 0xF)));
+  StorageManager pool(1ull << (22 + memory), 1ull << (23 + total_storage));
   Deduper deduper;
   Array<Parsers> parsers(0);
   parsers.push_back(Parsers::JPEG_PROGRESSIVE);
-  parsers.push_back((argv[1][2] == 'b') ? Parsers::DEFLATE : Parsers::DEFLATE_BRUTE);
+  parsers.push_back(brute_mode ? Parsers::DEFLATE : Parsers::DEFLATE_BRUTE);
   parsers.push_back(Parsers::BITMAP_NOHDR);
   parsers.push_back(Parsers::TEXT);
   parsers.push_back(Parsers::DDS);
   parsers.push_back(Parsers::MOD);
   Analyser analyser(&parsers);
-  analyser.analyse(block, &pool, (argv[1][3] == 'D') ? &deduper : nullptr);
+  analyser.analyse(block, &pool, deduplication ? &deduper : nullptr);
 
   int64_t id = 0;
   assignIds(block, &id);
