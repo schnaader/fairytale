@@ -160,8 +160,8 @@ int main(int argc, char** argv) {
   bool verbose = false;
   std::string output_file;
   std::vector<std::string> input_files;
-  app.add_option("-m,--memory", memory, "Memory cache coefficient, [0..9] -> [4MB..2048MB]", 9);
-  app.add_option("-t,--total-storage", total_storage, "Total storage coefficient, [0..9] -> [8MB..4096MB]", 9);
+  app.add_option("-m,--memory", memory, "Memory cache coefficient [4MB..2048MB]", 9)->check(CLI::Range(0, 9));
+  app.add_option("-t,--total-storage", total_storage, "Total storage coefficient [8MB..4096MB]", 9)->check(CLI::Range(0, 9));
   app.add_flag("-b,--brute", brute_mode, "Brute force DEFLATE streams");
   app.add_flag("-d,--deduplication", deduplication, "Perform deduplication stage");
   app.add_flag("-v,--verbose", verbose, "Enable verbose output");
