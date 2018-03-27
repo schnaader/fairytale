@@ -204,6 +204,7 @@ int main(int argc, char** argv) {
   parsers.push_back(Parsers::JPEG_PROGRESSIVE);
   parsers.push_back(brute_mode ? Parsers::DEFLATE : Parsers::DEFLATE_BRUTE);
   parsers.push_back(Parsers::BITMAP_NOHDR);
+  parsers.push_back(Parsers::JSON);
   parsers.push_back(Parsers::TEXT);
   parsers.push_back(Parsers::DDS);
   parsers.push_back(Parsers::MOD);

@@ -275,8 +275,8 @@ public:
   }
 };
 
-#undef WINDOW_SIZE
-#undef WINDOW_ACCESS_MASK
-#undef BUFFER
+#  undef WINDOW_SIZE
+#  undef WINDOW_ACCESS_MASK
+#  undef BUFFER
 
 #endif

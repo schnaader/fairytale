@@ -17,51 +17,19 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PARSER_H
-#define PARSER_H
+#ifndef JSONPARSER_H
+#define JSONPARSER_H
 
-#include "block.h"
-#include "structs.h"
+#include "../parser.h"
 
-#define PARSER_PRIORITY_BITMAP 0
-#define PARSER_PRIORITY_MOD 1
-#define PARSER_PRIORITY_DDS 2
-#define PARSER_PRIORITY_DEFLATE 3
-#define PARSER_PRIORITY_JPEG 4
-#define PARSER_PRIORITY_JSON -1
-#define PARSER_PRIORITY_TEXT -2
-
-enum class ParserType
-{
-  Strict,
-  Fuzzy
-};
-
-enum class Parsers : size_t
-{
-  DEFLATE,
-  DEFLATE_BRUTE,
-  JPEG,
-  JPEG_PROGRESSIVE,
-  BITMAP,
-  BITMAP_NOHDR,
-  MOD,
-  DDS,
-  TEXT,
-  JSON,
-  Count
-};
-
-template <const ParserType type> class Parser {
-protected:
-  int priority;
+class JsonParser : public Parser<ParserType::Fuzzy> {
+private:
+  uint8_t buffer[GENERIC_BUFFER_SIZE];
+  off_t position;
 
 public:
-  virtual ~Parser() {}
-  virtual bool parse(Block* block, ParseData* data, StorageManager* manager) = 0;
-  int getPriority() {
-    return priority;
-  }
+  explicit JsonParser(void);
+  bool parse(Block* block, ParseData* data, StorageManager* manager);
 };
 
 #endif
