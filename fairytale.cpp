@@ -158,20 +158,26 @@ int main(int argc, char** argv) {
   int total_storage = 9;
   bool brute_mode = false;
   bool deduplication = false;
-  bool verbose = false;
+  int verbose = 0;
   std::string output_file;
   std::vector<std::string> input_files;
   app.add_option("-m,--memory", memory, "Memory cache coefficient [4MB..2048MB]", 9)->check(CLI::Range(0, 9));
   app.add_option("-t,--total-storage", total_storage, "Total storage coefficient [8MB..4096MB]", 9)->check(CLI::Range(0, 9));
   app.add_flag("-b,--brute", brute_mode, "Brute force DEFLATE streams");
   app.add_flag("-d,--deduplication", deduplication, "Perform deduplication stage");
-  app.add_flag("-v,--verbose", verbose, "Enable verbose output");
+  app.add_flag("-v,--verbose", verbose, "Enable verbose output. Specify twice for more verbosity.");
   app.add_option("output_file,-o", output_file, "output_file")->required();
   app.add_option("input_files,-i,", input_files, "input_files")->required();
   CLI11_PARSE(app, argc, argv);
 
   auto console = spdlog::stdout_color_mt("console");
-  spdlog::set_level(verbose ? spdlog::level::debug : spdlog::level::info);
+  spdlog::set_pattern("%v");
+  switch (verbose) {
+    case 0: spdlog::set_level(spdlog::level::info); break;
+    case 1: spdlog::set_level(spdlog::level::debug); break;
+    case 2: spdlog::set_level(spdlog::level::trace); break;
+    default: spdlog::set_level(spdlog::level::info); break;
+  }
 
   clock_t start_time = clock();
   FileStream output;
@@ -183,7 +189,7 @@ int main(int argc, char** argv) {
   for (size_t i = 0; i < input_files.size(); i++) {
     input[i] = new FileStream;
     if (!input[i]->open(input_files[i].c_str())) {
-      console->error("File not found: {0}", input_files[i]);
+      console->critical("File not found: {0}", input_files[i]);
       getchar();
       return 0;
     }
@@ -220,34 +226,33 @@ int main(int argc, char** argv) {
     dumpToFile(block, &pool, &output);
   }
   catch (...) {
-    printf("\n\nError writing output file!");
+    console->critical("Error writing output file!");
     return 0;
   }
   uint64_t total = output.getSize();
-  printf("\n");
   if (stats.zlib > 0)
-    printf("DEFLATE streams found: %" PRIu64 " (%" PRIu64 " bytes)\n", stats.zlib, stats.totals.zlib);
+    console->info("DEFLATE streams found: {0} ({1} bytes)", stats.zlib, stats.totals.zlib);
   if (stats.jpeg > 0)
-    printf("JPEG streams found: %" PRIu64 "  (%" PRIu64 " bytes)\n", stats.jpeg, stats.totals.jpeg);
+    console->info("JPEG streams found: {0} ({1} bytes)", stats.jpeg, stats.totals.jpeg);
   if (stats.img32 + stats.img24 + stats.totals.img8 + stats.img4 + stats.img1 > 0)
-    printf("Uncompressed image streams stats:\n");
+    console->info("Uncompressed image streams stats:");
   if (stats.img32 > 0)
-    printf("%" PRIu64 " @32bpp (%" PRIu64 " bytes)\n", stats.img32, stats.totals.img32);
+    console->info("{0} @32bpp ({1} bytes)", stats.img32, stats.totals.img32);
   if (stats.img24 > 0)
-    printf("%" PRIu64 " @24bpp (%" PRIu64 " bytes)\n", stats.img24, stats.totals.img24);
+    console->info("{0} @24bpp ({1} bytes)", stats.img24, stats.totals.img24);
   if (stats.totals.img8 > 0)
-    printf("%" PRIu64 " @8bpp palette-indexed, %" PRIu64 " @8bpp grayscale (%" PRIu64 " bytes)\n", stats.img8, stats.img8gray, stats.totals.img8);
+    console->info("{0} @8bpp palette-indexed, {1} @8bpp grayscale ({2} bytes)", stats.img8, stats.img8gray, stats.totals.img8);
   if (stats.img4 > 0)
-    printf("%" PRIu64 " @4bpp (%" PRIu64 " bytes)\n", stats.img4, stats.totals.img4);
+    console->info("{0} @4bpp ({1} bytes)", stats.img4, stats.totals.img4);
   if (stats.img1 > 0)
-    printf("%" PRIu64 " @1bpp (%" PRIu64 " bytes)\n", stats.img1, stats.totals.img1);
+    console->info("{0} @1bpp ({1} bytes)", stats.img1, stats.totals.img1);
   if (stats.dds > 0)
-    printf("DDS textures found: %" PRIu64 ", (%" PRIu64 " bytes)\n", stats.dds, stats.totals.dds);
+    console->info("DDS textures found: {0}, ({1} bytes)", stats.dds, stats.totals.dds);
   if (stats.mod > 0)
-    printf("MOD audio streams found: %" PRIu64 ", (%" PRIu64 " bytes)\n", stats.mod, stats.totals.mod);
+    console->info("MOD audio streams found: {0}, ({1} bytes)", stats.mod, stats.totals.mod);
   if (stats.text > 0)
-    printf("Text streams found: %" PRIu64 " (%" PRIu64 " bytes)\n\n", stats.text, stats.totals.text);
-  printf("\nDone in %1.2f sec, %" PRIu64 " bytes, %" PRIu64 " blocks were deduped", double(clock() - start_time) / CLOCKS_PER_SEC, total, stats.deduped);
+    console->info("Text streams found: {0} ({1} bytes)", stats.text, stats.totals.text);
+  console->info("Done in {0:.2f} sec, {1} bytes, {2} blocks were deduped", double(clock() - start_time) / CLOCKS_PER_SEC, total, stats.deduped);
   getchar();
   return 0;
 }

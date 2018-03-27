@@ -28,7 +28,7 @@ void StorageManager::doRefBiasedPurge(const int64_t storageRequested) {
   size_t memUsed;
   int64_t sizeUsed;
   int index;
-  TRACE("Received storage request for %" PRIu64 "KB, total available storage is %" PRIu64 "KB\n", storageRequested >> 10, available.total >> 10);
+  spdlog::get("console")->trace("Received storage request for {0}KB, total available storage is {1}KB", storageRequested >> 10, available.total >> 10);
   do {
     int j = 0;
     do {
@@ -60,8 +60,8 @@ void StorageManager::doRefBiasedPurge(const int64_t storageRequested) {
       available.total += SIZE_BLOCKS(sizeUsed = streams[stats.indexes[index]]->getSize());
       available.memory += (memUsed = (streams[stats.indexes[index]]->inMemory()) ? streams[stats.indexes[index]]->getMemUsage() : 0);
       streams[stats.indexes[index]]->close();
-      TRACE(
-      "Purged stream %zu, recovered %" PRIu64 "KB of storage and %zuKB of RAM, %" PRIu64 "KB now available, (RAM for caching: %zuKB)\n", stats.indexes[index], sizeUsed >> 10, memUsed >> 10,
+      spdlog::get("console")->trace(
+      "Purged stream {0}, recovered {1}KB of storage and {2}KB of RAM, {3}KB now available, (RAM for caching: {4}KB)", stats.indexes[index], sizeUsed >> 10, memUsed >> 10,
       available.total >> 10, available.memory >> 10);
       if (index != (stats.count - 1)) {
         stats.scores[index] = stats.scores[stats.count - 1];
