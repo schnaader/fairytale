@@ -139,7 +139,7 @@ public:
           if (found) {
             start -= 4;
             int64_t length = offset - start;
-            LOG("%s JPEG found at %" PRIu64 ", length: %" PRIu64 " bytes\n", (progressive ? "Progressive" : "Baseline"), start, length);
+            spdlog::get("console")->debug("{0} JPEG found at {1}, length: {2} bytes", (progressive ? "Progressive" : "Baseline"), start, length);
             block = block->segmentAround(start, length, BlockType::JPEG);
             i += length - 4;
             position = start + length;

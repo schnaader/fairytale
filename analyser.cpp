@@ -97,7 +97,7 @@ bool Analyser::analyse(Block* block, StorageManager* manager, Deduper* deduper) 
   do {
     detected = false;
     for (int stage = 0; stage < 2; stage++) {
-      LOG("Starting %s analysis at recursion level %u\n", (stage) ? "fuzzy" : "strict", level);
+      spdlog::get("console")->debug("Starting {0} analysis at recursion level {1}", stage ? "fuzzy" : "strict", level);
       size_t len = (stage) ? fuzzy.size() : strict.size();
       for (size_t i = 0; i < len; i++) {
         b = block;

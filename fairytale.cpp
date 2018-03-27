@@ -1,5 +1,6 @@
 #include "analyser.h"
 #include "contrib/CLI11/CLI11.hpp"
+#include "contrib/spdlog/spdlog.h"
 
 struct Stats {
   uint64_t deduped, zlib, jpeg, img1, img4, img8, img8gray, img24, img32, text, dds, mod;
@@ -152,7 +153,7 @@ int main(int argc, char** argv) {
 #ifdef WINDOWS
   _setmaxstdio(2048);
 #endif
-  CLI::App app{"Fairytale Prototype v0.016 by M. Pais, 2018"};
+  CLI::App app{ "Fairytale Prototype v0.016 by M. Pais, 2018" };
   int memory = 9;
   int total_storage = 9;
   bool brute_mode = false;
@@ -169,6 +170,9 @@ int main(int argc, char** argv) {
   app.add_option("input_files,-i,", input_files, "input_files")->required();
   CLI11_PARSE(app, argc, argv);
 
+  auto console = spdlog::stdout_color_mt("console");
+  spdlog::set_level(verbose ? spdlog::level::debug : spdlog::level::info);
+
   clock_t start_time = clock();
   FileStream output;
   output.create(output_file.c_str());
@@ -179,15 +183,15 @@ int main(int argc, char** argv) {
   for (size_t i = 0; i < input_files.size(); i++) {
     input[i] = new FileStream;
     if (!input[i]->open(input_files[i].c_str())) {
-      printf("File not found: %s\n", input_files[i].c_str());
+      console->error("File not found: {0}", input_files[i]);
       getchar();
       return 0;
     }
     block->data = input[i];
     block->length = block->data->getSize();
-    printf("Loaded %s, (%" PRIu64 " bytes), hashing... ", input_files[i].c_str(), block->length);
+    console->info("Loaded {0}, ({1} bytes), hashing... ", input_files[i], block->length);
     block->calculateHash();
-    printf("done\n");
+    console->info("Done hashing.");
     if (i > 0)
       input[i]->goToSleep();
     if (i + 1 < input_files.size()) {
@@ -202,7 +206,7 @@ int main(int argc, char** argv) {
   Deduper deduper;
   Array<Parsers> parsers(0);
   parsers.push_back(Parsers::JPEG_PROGRESSIVE);
-  parsers.push_back(brute_mode ? Parsers::DEFLATE : Parsers::DEFLATE_BRUTE);
+  parsers.push_back(brute_mode ? Parsers::DEFLATE_BRUTE : Parsers::DEFLATE);
   parsers.push_back(Parsers::BITMAP_NOHDR);
   parsers.push_back(Parsers::TEXT);
   parsers.push_back(Parsers::DDS);
