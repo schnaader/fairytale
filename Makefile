@@ -2,7 +2,7 @@ PROGNAME = fairytale
 CFLAGS = -std=c++11 -m64 -O2 -Wall
 LFLAGS = -lz
 TRANSFORMSCPP = transforms/zlibtransform.cpp
-PARSERSCPP = parsers/ddsparser.cpp parsers/modparser.cpp parsers/textparser.cpp
+PARSERSCPP = parsers/ddsparser.cpp parsers/modparser.cpp parsers/textparser.cpp parsers/jsonparser.cpp
 MAINCPP = analyser.cpp block.cpp deduper.cpp filestream.cpp hybridstream.cpp storagemanager.cpp
 
 .PHONY: all
