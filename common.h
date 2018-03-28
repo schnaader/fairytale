@@ -125,15 +125,6 @@ enum class Endian
 #  define CreateFile CreateFileW
 #endif
 
-#ifndef NDEBUG
-#  define TRACE(fmt, ...) \
-    do { \
-      fprintf(stderr, fmt, ##__VA_ARGS__); \
-    } while (0)
-#else
-#  define TRACE(fmt, ...)
-#endif
-
 #define MAX_INDEXABLE size_t((1ull << (sizeof(void*) * 8 - 1)) - 1)
 #define MEM_LIMIT(mem) (mem > (int64_t)MAX_INDEXABLE ? MAX_INDEXABLE : size_t(mem))
 
