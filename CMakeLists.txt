@@ -25,7 +25,7 @@ endif()
 
 ## SOURCES
 set(TRANSFORMSCPP transforms/zlibtransform.cpp)
-set(PARSERSCPP parsers/ddsparser.cpp parsers/modparser.cpp parsers/textparser.cpp)
+set(PARSERSCPP parsers/ddsparser.cpp parsers/modparser.cpp parsers/textparser.cpp parsers/jsonparser.cpp)
 set(MAINCPP fairytale.cpp analyser.cpp block.cpp deduper.cpp filestream.cpp hybridstream.cpp storagemanager.cpp)
 
 ## CONFIGURE ZLIB FOR BUILD

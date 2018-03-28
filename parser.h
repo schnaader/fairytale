@@ -28,7 +28,8 @@
 #define PARSER_PRIORITY_DDS 2
 #define PARSER_PRIORITY_DEFLATE 3
 #define PARSER_PRIORITY_JPEG 4
-#define PARSER_PRIORITY_TEXT -1
+#define PARSER_PRIORITY_JSON -1
+#define PARSER_PRIORITY_TEXT -2
 
 enum class ParserType
 {
@@ -47,6 +48,7 @@ enum class Parsers : size_t
   MOD,
   DDS,
   TEXT,
+  JSON,
   Count
 };
 

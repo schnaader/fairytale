@@ -22,6 +22,7 @@
 #include "parsers/ddsparser.h"
 #include "parsers/deflateparser.h"
 #include "parsers/jpegparser.h"
+#include "parsers/jsonparser.h"
 #include "parsers/modparser.h"
 #include "parsers/textparser.h"
 
@@ -74,6 +75,10 @@ Analyser::Analyser(const Array<Parsers>* parsers) : strict(0), fuzzy(0), data{ {
       }
       case Parsers::MOD: {
         strict.push_back(new ModParser());
+        break;
+      }
+      case Parsers::JSON: {
+        fuzzy.push_back(new JsonParser());
         break;
       }
       default: {};

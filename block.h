@@ -32,6 +32,7 @@ enum class BlockType : uint8_t
   AUDIO,
   TEXT,
   DDS,
+  JSON,
   Count
 };
 
