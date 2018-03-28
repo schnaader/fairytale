@@ -20,7 +20,7 @@
 #include "jsonparser.h"
 
 JsonParser::JsonParser(void) {
-  priority = PARSER_PRIORITY_TEXT;
+  priority = PARSER_PRIORITY_JSON;
 }
 
 bool JsonParser::parse(Block* block, ParseData* data, StorageManager* manager) {
