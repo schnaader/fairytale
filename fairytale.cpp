@@ -2,9 +2,9 @@
 #include "contrib/CLI11/CLI11.hpp"
 
 struct Stats {
-  uint64_t deduped, zlib, jpeg, img1, img4, img8, img8gray, img24, img32, text, dds, mod;
+  uint64_t deduped, zlib, jpeg, img1, img4, img8, img8gray, img24, img32, text, dds, mod, json;
   struct {
-    uint64_t zlib, jpeg, img1, img4, img8, img8gray, img24, img32, text, dds, mod;
+    uint64_t zlib, jpeg, img1, img4, img8, img8gray, img24, img32, text, dds, mod, json;
   } totals;
 } stats = { 0 };
 
@@ -106,6 +106,10 @@ void dumpToFile(Block* block, StorageManager* manager, FileStream* stream) {
             stats.jpeg++;
             stats.totals.jpeg += block->length;
             break;
+          }
+          case BlockType::JSON: {
+            stats.json++;
+            stats.totals.json += block->length;
           }
           default: {}
         }
@@ -242,6 +246,8 @@ int main(int argc, char** argv) {
     printf("DDS textures found: %" PRIu64 ", (%" PRIu64 " bytes)\n", stats.dds, stats.totals.dds);
   if (stats.mod > 0)
     printf("MOD audio streams found: %" PRIu64 ", (%" PRIu64 " bytes)\n", stats.mod, stats.totals.mod);
+  if (stats.json > 0)
+    printf("JSON objects found: %" PRIu64 ", (%" PRIu64 " bytes)\n", stats.json, stats.totals.json);
   if (stats.text > 0)
     printf("Text streams found: %" PRIu64 " (%" PRIu64 " bytes)\n\n", stats.text, stats.totals.text);
   printf("\nDone in %1.2f sec, %" PRIu64 " bytes, %" PRIu64 " blocks were deduped", double(clock() - start_time) / CLOCKS_PER_SEC, total, stats.deduped);
