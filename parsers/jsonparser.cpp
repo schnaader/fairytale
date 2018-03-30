@@ -78,7 +78,7 @@ bool JsonParser::parse(Block* block, ParseData* data, StorageManager* manager) {
       position++;
     }
   }
-  if (curlyBraceCount == 0 && squareBracketCount == 0 && (quoteCount % 2 == 0)) {
+  if (curlyBraceCount == 0 && squareBracketCount == 0 && (quoteCount % 2 == 0) && firstBracePosition != -1) {
     LOG("Possible JSON detection at %" PRIu64 ", %" PRIu64 " bytes\n", firstBracePosition, lastBracePosition - firstBracePosition);
     block = block->segmentAround(firstBracePosition, lastBracePosition - firstBracePosition, BlockType::JSON);
     return true;
