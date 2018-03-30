@@ -193,9 +193,9 @@ public:
           }
           HybridStream* output = transform.attempt(block->data, manager, &data->deflate);
           if (output != nullptr) {
-            LOG(
-            "zLib stream found at %" PRIu64 ", length %u bytes, decompresses to %u bytes, %d penalty bytes\n", offset, data->deflate.lengthIn,
-            data->deflate.lengthOut, data->deflate.penaltyBytesUsed);
+            spdlog::get("console")->debug(
+            "zLib stream found at {0}, length {1} bytes, decompresses to {2} bytes, {3} penalty bytes", offset, data->deflate.lengthIn, data->deflate.lengthOut,
+            data->deflate.penaltyBytesUsed);
             res = true;
             block = block->segmentAround(offset, data->deflate.lengthIn, BlockType::DEFLATE, &data->deflate, sizeof(DeflateInfo), output);
             output->setPriority(STREAM_PRIORITY_HIGH);

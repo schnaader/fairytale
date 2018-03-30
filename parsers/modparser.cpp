@@ -76,7 +76,7 @@ bool ModParser::parse(Block* block, ParseData* data, StorageManager* manager) {
 
         if (nPatterns <= (64u << uint32_t((last4[0] & 0xFFFF) == 0x4348 || (last4[0] & 0xFFFF) == 0x4B21))) {
           off_t offset = position + nPatterns * channels * 256;
-          LOG("MOD audio found at %" PRIu64 ", %u bytes\n", offset, length);
+          spdlog::get("console")->debug("MOD audio found at {0}, {1} bytes", offset, length);
           data->audio.bps = 8;
           data->audio.channels = 1;
           data->audio.mode = 4;

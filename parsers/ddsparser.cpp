@@ -87,13 +87,13 @@ bool DDSParser::parse(Block* block, ParseData* data, StorageManager* manager) {
               break;
 
             if ((header.ddspf.dwFourCC & 0xFF) == 0x44)
-              LOG(
-              "DDS DXT%d texture found at %" PRIu64 ", %ux%u, %u MipMaps, %" PRIu64 " bytes\n", (header.ddspf.dwFourCC >> 24) & 0xF, position - 8,
-              header.dwWidth, header.dwHeight, header.dwMipMapCount, length);
+              spdlog::get("console")->debug(
+              "DDS DXT{0} texture found at {1}, {2}x{3}, {4} MipMaps, {5} bytes", (header.ddspf.dwFourCC >> 24) & 0xF, position - 8, header.dwWidth,
+              header.dwHeight, header.dwMipMapCount, length);
             else
-              LOG(
-              "DDS ATI%d texture found at %" PRIu64 ", %ux%u, %u MipMaps, %" PRIu64 " bytes\n", (header.ddspf.dwFourCC >> 24) & 0xF, position - 8,
-              header.dwWidth, header.dwHeight, header.dwMipMapCount, length);
+              spdlog::get("console")->debug(
+              "DDS ATI{0} texture found at {1}, {2}x{3}, {4} MipMaps, {5} bytes", (header.ddspf.dwFourCC >> 24) & 0xF, position - 8, header.dwWidth,
+              header.dwHeight, header.dwMipMapCount, length);
           }
           else {
             uint32_t j = 0;
@@ -105,9 +105,9 @@ bool DDSParser::parse(Block* block, ParseData* data, StorageManager* manager) {
             if (i - 8 + length >= l)
               break;
 
-            LOG(
-            "DDS %dbpp uncompressed texture found at %" PRIu64 ", %ux%u, %u MipMaps, %" PRIu64 " bytes\n", header.ddspf.dwRGBBitCount, position - 8,
-            header.dwWidth, header.dwHeight, header.dwMipMapCount, length);
+            spdlog::get("console")->debug(
+            "DDS {0}bpp uncompressed texture found at {1}, {2}x{3}, {4} MipMaps, {5} bytes", header.ddspf.dwRGBBitCount, position - 8, header.dwWidth,
+            header.dwHeight, header.dwMipMapCount, length);
           }
           block = block->segmentAround(position - 8, length, BlockType::DDS);
           i = i - 8 + length;

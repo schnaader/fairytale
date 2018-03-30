@@ -124,8 +124,8 @@ public:
                   data->image.grayscale = false;
                 }
               }
-              LOG(
-              "%dbpp %s%s found at %" PRIu64 ", %dx%d, %" PRIu64 " bytes\n", bmp.bpp, (data->image.grayscale ? "grayscale " : ""), (noFileHdr ? "DIB" : "BMP"), offset,
+              spdlog::get("console")->debug(
+              "{0}bpp {1}{2} found at {3}, {4}x{5}, {6} bytes", bmp.bpp, (data->image.grayscale ? "grayscale " : ""), (noFileHdr ? "DIB" : "BMP"), offset,
               data->image.width, data->image.height, length);
               block = block->segmentAround(offset, length, BlockType::IMAGE, &data->image, sizeof(ImageInfo));
               i += offset - position + length;
