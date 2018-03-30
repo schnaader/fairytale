@@ -110,6 +110,12 @@ void dumpToFile(Block* block, StorageManager* manager, FileStream* stream) {
           case BlockType::JSON: {
             stats.json++;
             stats.totals.json += block->length;
+            break;
+          }
+          case BlockType::TEXT: {
+            stats.text++;
+            stats.totals.text += block->length;
+            break;
           }
           default: {}
         }
