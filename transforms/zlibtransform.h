@@ -23,37 +23,10 @@
 #include <zlib.h>
 #include "../structs.h"
 #include "../transform.h"
+#include "MTFList.h"
 
 #define ZLIB_BLOCK_SIZE (0x10000ul)
 #define ZLIB_NUM_COMBINATIONS 81
-
-class zLibMTF {
-private:
-  struct MTFItem {
-    int Next, Previous;
-  };
-  MTFItem List[ZLIB_NUM_COMBINATIONS];
-  int Root, Index;
-
-public:
-  explicit zLibMTF(void);
-  inline int getFirst() {
-    return Index = Root;
-  }
-  inline int getNext() {
-    return (Index >= 0) ? Index = List[Index].Next : Index;
-  }
-  inline void moveToFront(const int i) {
-    if ((Index = i) == Root)
-      return;
-    List[List[Index].Previous].Next = List[Index].Next;
-    if (List[Index].Next >= 0)
-      List[List[Index].Next].Previous = List[Index].Previous;
-    List[Root].Previous = Index;
-    List[Index].Next = Root;
-    List[Root = Index].Previous = -1;
-  }
-};
 
 class zLibTransform : public Transform {
 private:
@@ -64,7 +37,7 @@ private:
   uint32_t diffPos[ZLIB_NUM_COMBINATIONS * ZLIB_MAX_PENALTY_BYTES];
   z_stream main_strm, rec_strm[ZLIB_NUM_COMBINATIONS];
   int diffCount[ZLIB_NUM_COMBINATIONS], recPos[ZLIB_NUM_COMBINATIONS];
-  zLibMTF MTF;
+  MTFList<ZLIB_NUM_COMBINATIONS> MTF;
   int ret;
   void clearBuffers();
   void setupStream(z_streamp strm);

@@ -21,14 +21,6 @@
 
 #include "zlibtransform.h"
 
-zLibMTF::zLibMTF(void) : Root(0), Index(0) {
-  for (int i = 0; i < ZLIB_NUM_COMBINATIONS; i++) {
-    List[i].Next = i + 1;
-    List[i].Previous = i - 1;
-  }
-  List[ZLIB_NUM_COMBINATIONS - 1].Next = -1;
-}
-
 void zLibTransform::clearBuffers() {
   memset(&blockIn[0], 0, ZLIB_BLOCK_SIZE * 2);
   memset(&blockOut[0], 0, ZLIB_BLOCK_SIZE);
