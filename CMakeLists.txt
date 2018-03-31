@@ -85,4 +85,4 @@ endif(NOT BUILD_ZLIB)
 file(GLOB test_source test/*.cpp)
 add_executable(runTests ${test_source})
 
-target_link_libraries(runTests ${GTEST_LIBRARIES} pthread)
+target_link_libraries(runTests gtest_main)
