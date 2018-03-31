@@ -56,3 +56,12 @@ if (NOT BUILD_ZLIB)
 		target_link_libraries(fairytale ${ZLIB_LIBRARIES})
 	endif(ZLIB_FOUND)	
 endif(NOT BUILD_ZLIB)
+
+file(GLOB test_source test/*.cpp)
+add_executable(runTests ${test_source})
+
+# Locate GTest
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+
+target_link_libraries(runTests ${GTEST_LIBRARIES} pthread)
