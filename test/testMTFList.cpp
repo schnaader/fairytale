@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "../transforms/MTFList.h"
+#include "../transforms/mtflist.h"
 
 TEST(MTFList, CreatedInOrder) {
   MTFList<4> MTF;
