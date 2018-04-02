@@ -23,7 +23,7 @@
 #include <zlib.h>
 #include "../structs.h"
 #include "../transform.h"
-#include "MTFList.h"
+#include "mtflist.h"
 
 #define ZLIB_BLOCK_SIZE (0x10000ul)
 #define ZLIB_NUM_COMBINATIONS 81
