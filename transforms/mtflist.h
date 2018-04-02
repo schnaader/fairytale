@@ -20,16 +20,17 @@
 #ifndef MTFLIST_H
 #define MTFLIST_H
 
-template<int size>
-class MTFList {
- private:
+template <int size> class MTFList {
+  static_assert(size > 0, "MTF list size must be a positive integer");
+
+private:
   struct MTFItem {
     int next, previous;
   };
   MTFItem list[size];
   int root, index;
 
- public:
+public:
   MTFList() : root(0), index(0) {
     for (int i = 0; i < size; i++) {
       list[i].next = i + 1;
@@ -42,20 +43,17 @@ class MTFList {
     return index;
   }
   inline int getNext() {
-    if (index >= 0) {
+    if (index >= 0)
       index = list[index].next;
-    }
     return index;
   }
   inline void moveToFront(const int i) {
     index = i;
-    if (index == root) {
+    if (index == root)
       return;
-    }
     list[list[index].previous].next = list[index].next;
-    if (list[index].next >= 0) {
+    if (list[index].next >= 0)
       list[list[index].next].previous = list[index].previous;
-    }
     list[root].previous = index;
     list[index].next = root;
     root = index;
