@@ -1,7 +1,7 @@
 /*
   This file is part of the Fairytale project
 
-  Copyright (C) 2018 Márcio Pais
+  Copyright (C) 2018 MÃ¡rcio Pais
 
   This library is free software: you can redistribute it and/or modify
   it under the terms of the GNU Lesser General Public License as published by
@@ -35,7 +35,7 @@ public:
       stream->setPos(offset);
     }
     catch (ExhaustedStorageException const&) {
-      return crc;
+      return ~crc;
     }
     while (length > 0) {
       size_t l = stream->blockRead(&buffer[0], min(GENERIC_BUFFER_SIZE, length));
