@@ -158,26 +158,31 @@ void dumpToFile(Block* block, StorageManager* manager, FileStream* stream) {
   } while (block != nullptr);
 }
 
+int verbose;
 int main(int argc, char** argv) {
 #ifdef WINDOWS
   _setmaxstdio(2048);
 #endif
-  CLI::App app{"Fairytale Prototype v0.016 by M. Pais, 2018"};
+  CLI::App app{ "Fairytale Prototype v0.017 by M. Pais, 2018" };
   int memory = 9;
   int total_storage = 9;
   bool brute_mode = false;
   bool deduplication = false;
-  bool verbose = false;
+  verbose = 0;
   std::string output_file;
   std::vector<std::string> input_files;
   app.add_option("-m,--memory", memory, "Memory cache coefficient [4MB..2048MB]", 9)->check(CLI::Range(0, 9));
   app.add_option("-t,--total-storage", total_storage, "Total storage coefficient [8MB..4096MB]", 9)->check(CLI::Range(0, 9));
   app.add_flag("-b,--brute", brute_mode, "Brute force DEFLATE streams");
   app.add_flag("-d,--deduplication", deduplication, "Perform deduplication stage");
-  app.add_flag("-v,--verbose", verbose, "Enable verbose output");
+  app.add_flag("-v,--verbose", verbose, "Enable verbose output. Specify twice for more verbosity");
   app.add_option("output_file,-o", output_file, "output_file")->required();
   app.add_option("input_files,-i,", input_files, "input_files")->required();
   CLI11_PARSE(app, argc, argv);
+  if (memory > total_storage) {
+    printf("Error: Total storage coefficient must be higher than memory cache coefficient");
+    return 0;
+  }
 
   clock_t start_time = clock();
   FileStream output;
@@ -212,7 +217,7 @@ int main(int argc, char** argv) {
   Deduper deduper;
   Array<Parsers> parsers(0);
   parsers.push_back(Parsers::JPEG_PROGRESSIVE);
-  parsers.push_back(brute_mode ? Parsers::DEFLATE : Parsers::DEFLATE_BRUTE);
+  parsers.push_back(brute_mode ? Parsers::DEFLATE_BRUTE : Parsers::DEFLATE);
   parsers.push_back(Parsers::BITMAP_NOHDR);
   parsers.push_back(Parsers::JSON);
   parsers.push_back(Parsers::TEXT);

@@ -124,25 +124,17 @@ enum class Endian
 #  define CreateFile CreateFileW
 #endif
 
-#ifndef WINDOWS
-#  define VERBOSE
-#endif
-#ifdef VERBOSE
-#  define LOG(fmt, ...) \
-    do { \
+extern int verbose;
+#define LOG(fmt, ...) \
+  do { \
+    if (verbose) \
       printf(fmt, ##__VA_ARGS__); \
-    } while (0)
-#else
-#  define LOG(fmt, ...)
-#endif
-#ifndef NDEBUG
-#  define TRACE(fmt, ...) \
-    do { \
+  } while (0)
+#define TRACE(fmt, ...) \
+  do { \
+    if (verbose > 1) \
       fprintf(stderr, fmt, ##__VA_ARGS__); \
-    } while (0)
-#else
-#  define TRACE(fmt, ...)
-#endif
+  } while (0)
 
 #define MAX_INDEXABLE size_t((1ull << (sizeof(void*) * 8 - 1)) - 1)
 #define MEM_LIMIT(mem) (mem > (int64_t)MAX_INDEXABLE ? MAX_INDEXABLE : size_t(mem))
@@ -183,9 +175,9 @@ inline int64_t max(int64_t a, int64_t b) {
 
 class ExhaustedStorageException : public std::exception {};
 
-#  define TAB 0x09
-#  define NEW_LINE 0x0A
-#  define CARRIAGE_RETURN 0x0D
-#  define SPACE 0x20
+#define TAB 0x09
+#define NEW_LINE 0x0A
+#define CARRIAGE_RETURN 0x0D
+#define SPACE 0x20
 
 #endif
