@@ -4,3 +4,6 @@ build_script:
     cmake -Bbuild -H. -G"Visual Studio 14 2015 Win64"
 
     msbuild build\fairytale.sln
+    
+    cd build
+    runTests
