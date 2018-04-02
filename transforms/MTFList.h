@@ -24,34 +24,42 @@ template<int size>
 class MTFList {
  private:
   struct MTFItem {
-    int Next, Previous;
+    int next, previous;
   };
-  MTFItem List[size];
-  int Root, Index;
+  MTFItem list[size];
+  int root, index;
 
  public:
-  MTFList() : Root(0), Index(0) {
+  MTFList() : root(0), index(0) {
     for (int i = 0; i < size; i++) {
-      List[i].Next = i + 1;
-      List[i].Previous = i - 1;
+      list[i].next = i + 1;
+      list[i].previous = i - 1;
     }
-    List[size - 1].Next = -1;
+    list[size - 1].next = -1;
   }
   inline int getFirst() {
-    return Index = Root;
+    index = root;
+    return index;
   }
   inline int getNext() {
-    return (Index >= 0) ? Index = List[Index].Next : Index;
+    if (index >= 0) {
+      index = list[index].next;
+    }
+    return index;
   }
   inline void moveToFront(const int i) {
-    if ((Index = i) == Root)
+    index = i;
+    if (index == root) {
       return;
-    List[List[Index].Previous].Next = List[Index].Next;
-    if (List[Index].Next >= 0)
-      List[List[Index].Next].Previous = List[Index].Previous;
-    List[Root].Previous = Index;
-    List[Index].Next = Root;
-    List[Root = Index].Previous = -1;
+    }
+    list[list[index].previous].next = list[index].next;
+    if (list[index].next >= 0) {
+      list[list[index].next].previous = list[index].previous;
+    }
+    list[root].previous = index;
+    list[index].next = root;
+    root = index;
+    list[root].previous = -1;
   }
 };
 
