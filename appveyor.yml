@@ -5,6 +5,6 @@ build_script:
 
     msbuild build\fairytale.sln
     
-    cd build
+    cd build\debug
     
     runTests
