@@ -175,9 +175,9 @@ inline int64_t max(int64_t a, int64_t b) {
 
 class ExhaustedStorageException : public std::exception {};
 
-#define TAB 0x09
-#define NEW_LINE 0x0A
-#define CARRIAGE_RETURN 0x0D
-#define SPACE 0x20
+#  define TAB 0x09
+#  define NEW_LINE 0x0A
+#  define CARRIAGE_RETURN 0x0D
+#  define SPACE 0x20
 
 #endif

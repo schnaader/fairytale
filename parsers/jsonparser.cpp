@@ -57,7 +57,8 @@ bool JsonParser::parse(Block* block, ParseData* data, StorageManager* manager) {
         }
         case '}': {
           curlyBraceCount--;
-          lastBracePosition = position + 1;
+          if (firstBracePosition != -1)
+            lastBracePosition = position + 1;
           break;
         }
         case '"': {
