@@ -223,6 +223,7 @@ int main(int argc, char** argv) {
   parsers.push_back(Parsers::TEXT);
   parsers.push_back(Parsers::DDS);
   parsers.push_back(Parsers::MOD);
+  parsers.push_back(Parsers::MAGIC);
   Analyser analyser(&parsers);
   analyser.analyse(block, &pool, deduplication ? &deduper : nullptr);
 

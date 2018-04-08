@@ -25,6 +25,7 @@
 #include "parsers/jsonparser.h"
 #include "parsers/modparser.h"
 #include "parsers/textparser.h"
+#include "parsers/magic.h"
 
 Analyser::Analyser(const Array<Parsers>* parsers) : strict(0), fuzzy(0), data{ { 0 } } {
   size_t l = parsers->size();
@@ -80,6 +81,10 @@ Analyser::Analyser(const Array<Parsers>* parsers) : strict(0), fuzzy(0), data{ {
       case Parsers::JSON: {
         fuzzy.push_back(new JsonParser());
         break;
+      case Parsers::MAGIC: {
+        fuzzy.push_back(new MagicParser());
+        break;
+      }
       }
       default: {};
     }

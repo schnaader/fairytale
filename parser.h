@@ -49,6 +49,7 @@ enum class Parsers : size_t
   DDS,
   TEXT,
   JSON,
+  MAGIC,
   Count
 };
 
