@@ -124,6 +124,8 @@ enum class Endian
 #  define CreateFile CreateFileW
 #endif
 
+typedef int64_t VLI;
+
 extern int verbose;
 #define LOG(fmt, ...) \
   do { \
