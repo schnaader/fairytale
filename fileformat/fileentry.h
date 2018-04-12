@@ -17,19 +17,28 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef METADATA_H
-#define METADATA_H
+#ifndef FILEENTRY_H
+#define FILEENTRY_H
 
 #include "../common.h"
-#include "tag.h"
+#include "metadata.h"
 
-class Metadata {
+class FileEntry {
 private:
-  Tag tagList[];
+  VLI directoryId;
+  VLI length; // Length of name, in bytes
+  uint8_t name[];
+  Metadata metadata;
+  VLI numberOfBlocks;
+  VLI blockIds[];
 
 public:
-  Tag* query(const int64_t id);
-  // TODO: Methods for iterating through the list
+  int64_t getDirectoryId();
+  int64_t getLength();
+  uint8_t* getName();
+  Metadata getMetadata();
+  int64_t getNumberOfBlocks();
+  int64_t* getBlockIds();
 };
 
-#endif // METADATA_H
+#endif // FILEENTRY_H

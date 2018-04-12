@@ -17,19 +17,19 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef METADATA_H
-#define METADATA_H
+#ifndef BLOCKINFOENTRY_H
+#define BLOCKINFOENTRY_H
 
 #include "../common.h"
-#include "tag.h"
 
-class Metadata {
+class BlockInfoEntry {
 private:
-  Tag tagList[];
+  VLI size;
+  uint8_t info[];
 
 public:
-  Tag* query(const int64_t id);
-  // TODO: Methods for iterating through the list
+  int64_t getSize();
+  uint8_t* getInfo();
 };
 
-#endif // METADATA_H
+#endif // BLOCKINFOENTRY_H

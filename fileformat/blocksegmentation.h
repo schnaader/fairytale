@@ -17,19 +17,21 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef METADATA_H
-#define METADATA_H
+#ifndef BLOCKSEGMENTATION_H
+#define BLOCKSEGMENTATION_H
 
 #include "../common.h"
-#include "tag.h"
+#include "blocknodesequence.h"
+#include "chunkinfosequence.h"
 
-class Metadata {
+class BlockSegmentation {
 private:
-  Tag tagList[];
+  ChunkInfoSequence chunkInfoSequences[];
+  BlockNodeSequence blockNodeSequences[];
 
 public:
-  Tag* query(const int64_t id);
-  // TODO: Methods for iterating through the list
+  ChunkInfoSequence* getChunkInfoSequences();
+  BlockNodeSequence* getBlockNodeSequences();
 };
 
-#endif // METADATA_H
+#endif // BLOCKSEGMENTATION_H

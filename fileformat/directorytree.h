@@ -17,19 +17,22 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef METADATA_H
-#define METADATA_H
+#ifndef DIRECTORYTREE_H
+#define DIRECTORYTREE_H
 
 #include "../common.h"
-#include "tag.h"
+#include "directoryentry.h"
 
-class Metadata {
+class DirectoryTree {
 private:
-  Tag tagList[];
+  VLI size;
+  uint32_t checksum;
+  DirectoryEntry directoryEntries[];
 
 public:
-  Tag* query(const int64_t id);
-  // TODO: Methods for iterating through the list
+  int64_t getSize();
+  uint32_t getChecksum();
+  DirectoryEntry* getDirectoryEntries();
 };
 
-#endif // METADATA_H
+#endif // DIRECTORYTREE_H

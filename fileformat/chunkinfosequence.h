@@ -17,19 +17,31 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef METADATA_H
-#define METADATA_H
+#ifndef CHUNKINFOSEQUENCE_H
+#define CHUNKINFOSEQUENCE_H
 
 #include "../common.h"
-#include "tag.h"
+#include "blockinfoentry.h"
+#include "metadata.h"
 
-class Metadata {
+class ChunkInfoSequence {
 private:
-  Tag tagList[];
+  VLI size;
+  uint32_t checksum;
+  VLI codecSequenceId;
+  VLI blockCount;
+  VLI blockType;
+  Metadata metadata;
+  BlockInfoEntry BlockInfoEntries[];
 
 public:
-  Tag* query(const int64_t id);
-  // TODO: Methods for iterating through the list
+  int64_t getSize();
+  uint32_t getChecksum();
+  int64_t getCodecSequenceId();
+  int64_t getBlockCount();
+  int64_t getBlockType();
+  Metadata getMetadata();
+  BlockInfoEntry* getBlockInfoEntries;
 };
 
-#endif // METADATA_H
+#endif // CHUNKINFOSEQUENCE_H

@@ -33,7 +33,7 @@ public:
   uint8_t* getMagicSignature();
   uint8_t getVersion();
   uint8_t getFlags();
-  bool checkFlag(uint8_t flagId) {
+  bool checkFlag(const uint8_t flagId) {
     return (flags & flagId) != 0;
   }
   int64_t getDataSize();
