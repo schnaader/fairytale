@@ -19,6 +19,8 @@
 
 #include "deduper.h"
 
+#include <algorithm>
+
 bool Deduper::match(Block* block1, Block* block2, StorageManager* manager) {
   // start by checking full hashes and lengths
   if (block1->hash != block2->hash || block1->length != block2->length || block1 == block2)
@@ -66,7 +68,7 @@ bool Deduper::match(Block* block1, Block* block2, StorageManager* manager) {
 
   try {
     while (length > 0 && ret) {
-      int blsize = (int)min(GENERIC_BUFFER_SIZE, length);
+      int blsize = (int)std::min<int64_t>(GENERIC_BUFFER_SIZE, length);
       block1->data->setPos(off1);
       int l = (int)block1->data->blockRead(&buffer[0], blsize);
       block2->data->setPos(off2);

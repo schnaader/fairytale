@@ -19,6 +19,8 @@
 
 #include "ddsparser.h"
 
+#include <algorithm>
+
 DDSParser::DDSParser(void) {
   priority = PARSER_PRIORITY_DDS;
 }
@@ -59,7 +61,7 @@ bool DDSParser::parse(Block* block, ParseData* data, StorageManager* manager) {
           (letoh32(header.dwCaps)&DDSCAPS_TEXTURE)>0 &&
           letoh32(header.dwWidth)>0 && header.dwWidth<0x10000 &&
           letoh32(header.dwHeight)>0 && header.dwHeight<0x10000 &&
-          (letoh32(header.dwMipMapCount)==0 || ((header.dwCaps&DDSCAPS_MIPMAP)>0 && (1u<<(header.dwMipMapCount-1))<=max(header.dwWidth, header.dwHeight))) &&
+          (letoh32(header.dwMipMapCount)==0 || ((header.dwCaps&DDSCAPS_MIPMAP)>0 && (1u<<(header.dwMipMapCount-1))<= std::max<uint32_t>(header.dwWidth, header.dwHeight))) &&
           letoh32(header.ddspf.dwSize)==sizeof(DDS_PIXELFORMAT) && (
           (letoh32(header.ddspf.dwFlags)==DDPF_FOURCC && (
             ((letoh32(header.ddspf.dwFourCC)&0xF0FFFFFFu)==0x30545844 /*DXT?*/ && ((header.ddspf.dwFourCC>>24)&0xF)>0 && ((header.ddspf.dwFourCC>>24)&0xF)<6) ||
@@ -80,7 +82,7 @@ bool DDSParser::parse(Block* block, ParseData* data, StorageManager* manager) {
             uint32_t j = 0;
             do {
               length += ((w + 3) / 4) * ((h + 3) / 4) * blockSize;
-              w = max(1u, w >> 1), h = max(1u, h >> 1);
+              w = std::max<uint32_t>(1u, w >> 1), h = std::max<uint32_t>(1u, h >> 1);
               j++;
             } while (j < header.dwMipMapCount);
             if (i - 8 + length >= l)
@@ -99,7 +101,7 @@ bool DDSParser::parse(Block* block, ParseData* data, StorageManager* manager) {
             uint32_t j = 0;
             do {
               length += ((w * header.ddspf.dwRGBBitCount + 7) / 8) * h;
-              w = max(1u, w >> 1), h = max(1u, h >> 1);
+              w = std::max<uint32_t>(1u, w >> 1), h = std::max<uint32_t>(1u, h >> 1);
               j++;
             } while (j < header.dwMipMapCount);
             if (i - 8 + length >= l)

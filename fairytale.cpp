@@ -1,6 +1,8 @@
 #include "analyser.h"
 #include "contrib/CLI11/CLI11.hpp"
 
+#include <algorithm>
+
 struct Stats {
   uint64_t deduped, zlib, jpeg, img1, img4, img8, img8gray, img24, img32, text, dds, mod, json;
   struct {
@@ -138,7 +140,7 @@ void dumpToFile(Block* block, StorageManager* manager, FileStream* stream) {
         int64_t length = block->length;
         block->data->setPos(block->offset);
         while (length > 0) {
-          size_t l = block->data->blockRead(&buffer[0], min(GENERIC_BUFFER_SIZE, length));
+          size_t l = block->data->blockRead(&buffer[0], std::min<int64_t>(GENERIC_BUFFER_SIZE, length));
           if (l == 0)
             break;
           stream->blockWrite(&buffer[0], l);
