@@ -19,6 +19,8 @@
 
 #include "textparser.h"
 
+#include <algorithm>
+
 TextParser::TextParser(void) {
   priority = PARSER_PRIORITY_TEXT;
 }
@@ -67,7 +69,7 @@ bool TextParser::parse(Block* block, ParseData* data, StorageManager* manager) {
 
       if ((c<SPACE && c!=TAB && data->text.lastNL!=0) || ((last4&0xFF00)==(CARRIAGE_RETURN<<8) && c!=NEW_LINE) || (!isLetter && !isUTF8 && (
         data->text.lastNL>128 ||
-        data->text.lastSpace>max(data->text.lastNL, max(data->text.wordLength*8, 64u)) ||
+		  data->text.lastSpace > std::max<uint32_t>({ data->text.lastNL, data->text.wordLength * 8, 64u }) ||
         data->text.wordLength>32
         ))) {
         data->text.misses |= 1;

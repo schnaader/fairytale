@@ -19,6 +19,8 @@
 
 #include "storagemanager.h"
 
+#include <algorithm>
+
 void StorageManager::doRefBiasedPurge(const int64_t storageRequested) {
   struct {
     size_t scores[PURGE_SLIDING_WINDOW] = { 0 };
@@ -39,7 +41,7 @@ void StorageManager::doRefBiasedPurge(const int64_t storageRequested) {
           for (int i = 0; i < stats.count; skip |= (pruneIndex == stats.indexes[i]), i++)
             ;
           if (!skip) {
-            stats.scores[stats.count] = sizeUsed / max(1u, streams[pruneIndex]->getRefCount());
+            stats.scores[stats.count] = sizeUsed / std::max<uint32_t>(1u, streams[pruneIndex]->getRefCount());
             stats.scores[stats.count] *= streams[pruneIndex]->getPriority();
             stats.indexes[stats.count++] = pruneIndex;
           }
@@ -76,7 +78,7 @@ void StorageManager::doForcedPurge(uint32_t purgeRequested) {
   pruneIndex -= (pruneIndex > 0);
   uint32_t i = 0, j = 0;
   int64_t sizeUsed;
-  purgeRequested = min(purgeRequested, FORCE_PURGE_MAXIMUM);
+  purgeRequested = std::min<uint32_t>(purgeRequested, FORCE_PURGE_MAXIMUM);
   do {
     while (pruneIndex < streams.size() && i < purgeRequested) {
       if (!streams[pruneIndex]->mustKeepAlive() && !streams[pruneIndex]->wasPurged() && !streams[pruneIndex]->inMemory()) {
@@ -163,10 +165,10 @@ HybridStream* StorageManager::getTempStorage(int64_t storageRequested, HybridStr
       return nullptr;
   }
 
-  size_t memRequested = min(available.memory, MEM_LIMIT(storageRequested));
+  size_t memRequested = std::min<size_t>(available.memory, MEM_LIMIT(storageRequested));
   if ((int64_t)memRequested > available.total)
     memRequested = available.total;
-  else if (memRequested > max(MEM_BLOCK_SIZE * 2, min(DEFAULT_TEMP_MEM_PER_STREAM, available.memory >> 3)))
+  else if (memRequested > std::max<size_t>(MEM_BLOCK_SIZE * 2, std::min<size_t>(DEFAULT_TEMP_MEM_PER_STREAM, available.memory >> 3)))
     memRequested = 0;
 
   assert((memRequested & (MEM_BLOCK_SIZE - 1)) == 0);

@@ -23,6 +23,8 @@
 #include "common.h"
 #include "stream.h"
 
+#include <algorithm>
+
 class CRC32 {
 private:
   static const uint32_t CRC32LUT[];
@@ -38,7 +40,7 @@ public:
       return ~crc;
     }
     while (length > 0) {
-      size_t l = stream->blockRead(&buffer[0], min(GENERIC_BUFFER_SIZE, length));
+      size_t l = stream->blockRead(&buffer[0], std::min<int64_t>(GENERIC_BUFFER_SIZE, length));
       if (l == 0)
         break;
       for (size_t i = 0; i < l; i++)

@@ -19,6 +19,8 @@
 
 #include "modparser.h"
 
+#include <algorithm>
+
 ModParser::ModParser(void) {
   priority = PARSER_PRIORITY_MOD;
 }
@@ -71,7 +73,7 @@ bool ModParser::parse(Block* block, ParseData* data, StorageManager* manager) {
         uint32_t nPatterns = 1;
         for (j = 0; j < 0x80; j++) {
           uint32_t n = window[(index - 132 + j) & WINDOW_ACCESS_MASK] + 1;
-          nPatterns = max(nPatterns, n);
+          nPatterns = std::max<uint32_t>(nPatterns, n);
         }
 
         if (nPatterns <= (64u << uint32_t((last4[0] & 0xFFFF) == 0x4348 || (last4[0] & 0xFFFF) == 0x4B21))) {

@@ -21,6 +21,8 @@
 
 #include "zlibtransform.h"
 
+#include <algorithm>
+
 void zLibTransform::clearBuffers() {
   memset(&blockIn[0], 0, ZLIB_BLOCK_SIZE * 2);
   memset(&blockOut[0], 0, ZLIB_BLOCK_SIZE);
@@ -105,7 +107,7 @@ HybridStream* zLibTransform::attempt(Stream* input, StorageManager* manager, voi
 
   // now try to find a combination that can reproduce the original stream
   for (uint32_t i = 0; i < data->lengthIn; i += ZLIB_BLOCK_SIZE) {
-    uint32_t blockSize = min(data->lengthIn - i, (uint32_t)ZLIB_BLOCK_SIZE);
+    uint32_t blockSize = std::min<uint32_t>(data->lengthIn - i, (uint32_t)ZLIB_BLOCK_SIZE);
     trials = 0;
 
     for (int j = 0; j < ZLIB_NUM_COMBINATIONS; j++) {
@@ -154,7 +156,7 @@ HybridStream* zLibTransform::attempt(Stream* input, StorageManager* manager, voi
 
         // Compare
         int end = 2 * ZLIB_BLOCK_SIZE - (int)rec_strm[j].avail_out;
-        int tail = max((main_ret == Z_STREAM_END) ? (int)data->lengthIn - (int)rec_strm[j].total_out : 0, 0);
+        int tail = std::max<int>((main_ret == Z_STREAM_END) ? (int)data->lengthIn - (int)rec_strm[j].total_out : 0, 0);
         int k = recPos[j], len = (end + tail) & (-8);
         uint64_t *pRec = (uint64_t*)&blockRec[k], *pIn = (uint64_t*)&blockIn[k];
         while (k + 8 < len && (*pRec) == (*pIn)) {
@@ -261,7 +263,7 @@ bool zLibTransform::apply(Stream* input, Stream* output, void* info) {
   if (inflateInitAs(&strm, data->zlibParameters) != Z_OK)
     return false;
   for (uint32_t i = 0; i < data->lengthIn; i += ZLIB_BLOCK_SIZE) {
-    uint32_t blockSize = min(data->lengthIn - i, (uint32_t)ZLIB_BLOCK_SIZE);
+    uint32_t blockSize = std::min<uint32_t>(data->lengthIn - i, (uint32_t)ZLIB_BLOCK_SIZE);
     input->blockRead(&blockIn[0], blockSize);
     strm.next_in = &blockIn[0], strm.avail_in = blockSize;
     do {
