@@ -91,6 +91,7 @@ enum class Endian
 #include <sys/stat.h> //stat(), mkdir(), stat()
 #include <cinttypes>  //PRIu64   (C99 standard, available since VS 2013 RTM)
 #include <stdexcept>  //std::exception
+#include <vector>
 #ifndef _MSC_VER
 #  include <stddef.h>
 #endif
