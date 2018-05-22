@@ -29,13 +29,13 @@ private:
   VLI blockCount;
   VLI blockType;
   Metadata metadata;
-  BlockNodeEntry BlockNodeEntries[];
+  std::vector<BlockNodeEntry> BlockNodeEntries;
 
 public:
   int64_t getBlockCount();
   int64_t getBlockType();
   Metadata getMetadata();
-  BlockNodeEntry* getBlockNodeEntries;
+  std::vector<BlockNodeEntry> getBlockNodeEntries();
 };
 
 #endif // BLOCKNODESEQUENCE_H

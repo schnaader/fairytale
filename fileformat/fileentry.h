@@ -27,18 +27,18 @@ class FileEntry {
 private:
   VLI directoryId;
   VLI length; // Length of name, in bytes
-  uint8_t name[];
+  std::vector<uint8_t> name;
   Metadata metadata;
   VLI numberOfBlocks;
-  VLI blockIds[];
+  std::vector<VLI> blockIds;
 
 public:
   int64_t getDirectoryId();
   int64_t getLength();
-  uint8_t* getName();
+  std::vector<uint8_t> getName();
   Metadata getMetadata();
   int64_t getNumberOfBlocks();
-  int64_t* getBlockIds();
+  std::vector<int64_t> getBlockIds();
 };
 
 #endif // FILEENTRY_H

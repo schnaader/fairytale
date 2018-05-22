@@ -27,13 +27,13 @@ class DirectoryEntry {
 private:
   VLI parentId;
   VLI length; // Length of name, in bytes
-  uint8_t name[];
+  std::vector<uint8_t> name;
   Metadata metadata;
 
 public:
   int64_t getParentId();
   int64_t getLength();
-  uint8_t* getName();
+  std::vector<uint8_t> getName();
   Metadata getMetadata();
 };
 

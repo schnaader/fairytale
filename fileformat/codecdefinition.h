@@ -26,11 +26,11 @@
 class CodecDefinition {
 private:
   VLI numberOfCodecSequenceEntries;
-  CodecEntry CodecSequenceEntries[];
+  std::vector<CodecEntry> CodecSequenceEntries;
 
 public:
   int64_t getNumberOfCodecSequenceEntries();
-  CodecEntry* getCodecSequenceEntries;
+  std::vector<CodecEntry> getCodecSequenceEntries();
 };
 
 #endif // CODECDEFINITION_H

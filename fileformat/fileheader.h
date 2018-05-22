@@ -24,13 +24,20 @@
 
 class FileHeader {
 private:
-  uint8_t magicSignature[3];
+  std::vector<uint8_t> magicSignature;
   uint8_t version;
   uint8_t flags;
   int64_t dataSize;
 
 public:
-  uint8_t* getMagicSignature();
+  std::vector<uint8_t> getMagicSignature();
+  bool verifyMagicSignature() {
+    if (magicSignature.size() != 3)
+      return false;
+    if (magicSignature[0] == 'F' && magicSignature[1] == 'T' && magicSignature[2] == 'L')
+      return true;
+    return false;
+  }
   uint8_t getVersion();
   uint8_t getFlags();
   bool checkFlag(const uint8_t flagId) {

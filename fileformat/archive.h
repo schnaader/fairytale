@@ -17,20 +17,23 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CODECSEQUENCEENTRY_H
-#define CODECSEQUENCEENTRY_H
+#ifndef ARCHIVE_H
+#define ARCHIVE_H
 
 #include "../common.h"
-#include "codecentry.h"
+#include "blocksegmentation.h"
+#include "codecdefinition.h"
+#include "directorytree.h"
+#include "fileheader.h"
 
-class CodecSequenceEntry {
+class Archive {
 private:
-  VLI numberOfCodecs;
-  std::vector<CodecEntry> codecEntries;
+  FileHeader fileHeader;
+  CodecDefinition codecDefinition;
+  BlockSegmentation blockSegmentation;
+  DirectoryTree directoryTree;
 
 public:
-  int64_t getNumberOfCodecs();
-  std::vector<CodecEntry> getCodecEntries();
 };
 
-#endif // CODECSEQUENCEENTRY_H
+#endif // ARCHIVE_H

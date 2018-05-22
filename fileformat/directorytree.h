@@ -27,12 +27,12 @@ class DirectoryTree {
 private:
   VLI size;
   uint32_t checksum;
-  DirectoryEntry directoryEntries[];
+  std::vector<DirectoryEntry> directoryEntries;
 
 public:
   int64_t getSize();
   uint32_t getChecksum();
-  DirectoryEntry* getDirectoryEntries();
+  std::vector<DirectoryEntry> getDirectoryEntries();
 };
 
 #endif // DIRECTORYTREE_H

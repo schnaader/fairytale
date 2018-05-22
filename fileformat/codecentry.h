@@ -25,11 +25,11 @@
 class CodecEntry {
 private:
   VLI codecId;
-  uint8_t parameters[];
+  std::vector<uint8_t> parameters;
 
 public:
   int64_t getCodecId();
-  uint8_t* getParameters();
+  std::vector<uint8_t> getParameters();
 };
 
 #endif // CODECENTRY_H

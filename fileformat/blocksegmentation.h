@@ -26,12 +26,12 @@
 
 class BlockSegmentation {
 private:
-  ChunkInfoSequence chunkInfoSequences[];
-  BlockNodeSequence blockNodeSequences[];
+  std::vector<ChunkInfoSequence> chunkInfoSequences;
+  std::vector<BlockNodeSequence> blockNodeSequences;
 
 public:
-  ChunkInfoSequence* getChunkInfoSequences();
-  BlockNodeSequence* getBlockNodeSequences();
+  std::vector<ChunkInfoSequence> getChunkInfoSequences();
+  std::vector<BlockNodeSequence> getBlockNodeSequences();
 };
 
 #endif // BLOCKSEGMENTATION_H

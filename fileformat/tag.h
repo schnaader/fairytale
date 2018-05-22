@@ -26,12 +26,12 @@ class Tag {
 private:
   VLI id;
   VLI value;
-  uint8_t data[];
+  std::vector<uint8_t> data;
 
 public:
   int64_t getId();
   int64_t getValue();
-  uint8_t* getData();
+  std::vector<uint8_t> getData();
 };
 
 #endif // TAG_H

@@ -25,11 +25,11 @@
 class BlockInfoEntry {
 private:
   VLI size;
-  uint8_t info[];
+  std::vector<uint8_t> info;
 
 public:
   int64_t getSize();
-  uint8_t* getInfo();
+  std::vector<uint8_t> getInfo();
 };
 
 #endif // BLOCKINFOENTRY_H

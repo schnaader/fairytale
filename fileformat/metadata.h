@@ -25,10 +25,10 @@
 
 class Metadata {
 private:
-  Tag tagList[];
+  std::vector<Tag> tagList;
 
 public:
-  Tag* query(const int64_t id);
+  std::vector<Tag> query(const int64_t id);
   // TODO: Methods for iterating through the list
 };
 

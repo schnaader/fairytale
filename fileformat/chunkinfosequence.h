@@ -32,7 +32,7 @@ private:
   VLI blockCount;
   VLI blockType;
   Metadata metadata;
-  BlockInfoEntry BlockInfoEntries[];
+  std::vector<BlockInfoEntry> BlockInfoEntries;
 
 public:
   int64_t getSize();
@@ -41,7 +41,7 @@ public:
   int64_t getBlockCount();
   int64_t getBlockType();
   Metadata getMetadata();
-  BlockInfoEntry* getBlockInfoEntries;
+  std::vector<BlockInfoEntry> getBlockInfoEntries();
 };
 
 #endif // CHUNKINFOSEQUENCE_H

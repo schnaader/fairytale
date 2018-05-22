@@ -25,8 +25,8 @@
 class BlockNodeEntry {
 private:
   VLI numberOfChildBlocks;
-  uint8_t info[];
-  VLI blockIds[];
+  std::vector<uint8_t> info;
+  std::vector<VLI> blockIds;
 
 public:
   int64_t getNumberOfChildBlocks();
