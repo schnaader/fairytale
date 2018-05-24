@@ -18,6 +18,17 @@ void vliEncode(uint64_t i, FileStream* stream) {
   stream->putChar((uint8_t)i);
 }
 
+uint64_t vliDecode(uint8_t* x) {
+  uint64_t result = 0;
+  uint8_t i = 0;
+  while (x[i] & 0x80) {
+    result |= (x[i] & 0x7F) << (7 * i);
+    ++i;
+  }
+  result |= (x[i] & 0x7F) << (7 * i);
+  return result;
+}
+
 void assignIds(Block* block, int64_t* from) {
   do {
     block->id = (*from)++;

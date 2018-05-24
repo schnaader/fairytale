@@ -35,3 +35,13 @@ CMakeCache.txt
 
 fairytale
 fairytale.dSYM
+runTests
+gtest_main.pc
+gtest.pc
+googletest-src/
+googletest-download/
+googletest-build/
+gmock_main.pc
+gmock.pc
+.idea/
+*.swp
