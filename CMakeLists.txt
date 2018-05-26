@@ -76,32 +76,18 @@ target_link_libraries(runTests gtest_main)
 if(CMAKE_C_COMPILER_ID MATCHES "Clang|GNU")
 	set(CMAKE_C_FLAGS "-Wall")
 	set(CMAKE_C_FLAGS_DEBUG "-g")
-	set(CMAKE_C_FLAGS_RELEASE "-O2 -flto")
+	set(CMAKE_C_FLAGS_RELEASE "-O2")
 	set(CMAKE_C_FLAGS_CUSTOM "-Ofast -flto -march=native")
+endif()
+
+if (CMAKE_C_COMPILER_ID MATCHES "GNU")
+	set(CMAKE_C_FLAGS_RELEASE "-flto")
 endif()
 
 if(CMAKE_C_COMPILER_ID MATCHES "MSVC")
 	set(CMAKE_C_FLAGS "/Wall")
 	set(CMAKE_C_FLAGS "/MP") #Multi-processor Compilation. For more hints on compiling speedups refer to https://randomascii.wordpress.com/2014/03/22/make-vc-compiles-fast-through-parallel-compilation/
 	set(CMAKE_C_FLAGS_RELEASE "/GL") #prerequisite for /LTCG
-	set_target_properties(runTests PROPERTIES COMPILE_FLAGS "/Zi") #needed for source file detection of the google test interface in Visual Studio
-	
-	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "/INCREMENTAL:NO") #incompatible with /LTCG
-	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "/LTCG") #link time code generation: allows for more optimizations, now even functions from other .cpp files and even static libraries in the same solution can be inlined.
-	set_target_properties(runTests PROPERTIES LINK_FLAGS_RELEASE "/DEBUG") #needed for source file detection of the google test interface in Visual Studio
-endif()
-
-if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
-	set(CMAKE_CXX_FLAGS "-Wall")
-	set(CMAKE_CXX_FLAGS_DEBUG "-g")
-	set(CMAKE_CXX_FLAGS_RELEASE "-O2 -flto")
-	set(CMAKE_CXX_FLAGS_CUSTOM "-Ofast -flto -march=native")
-endif()
-
-if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-	set(CMAKE_CXX_FLAGS "/Wall")
-	set(CMAKE_C_FLAGS "/MP") #Multi-processor Compilation. For more hints on compiling speedups refer to https://randomascii.wordpress.com/2014/03/22/make-vc-compiles-fast-through-parallel-compilation/
-	set(CMAKE_CXX_FLAGS_RELEASE "/GL") #prerequisite for link time code generation
 	set_target_properties(runTests PROPERTIES COMPILE_FLAGS "/Zi") #needed for source file detection of the google test interface in Visual Studio
 	
 	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "/INCREMENTAL:NO") #incompatible with /LTCG
