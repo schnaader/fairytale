@@ -60,7 +60,7 @@ public:
   }                           // decrement size
   void push_back(const T& x); // increment size, append x
 
-  Array(const Array&) = delete;            //prevent copying - this method must be public (gcc must see it but actually won't use it)
+  Array(const Array&) = delete;            //prevent copying 
   Array& operator=(const Array&) = delete; //prevent assignment
 
   Array(Array&& other);
