@@ -44,6 +44,7 @@ public:
   }
   ~Array();
   T& operator[](const size_t i) {
+    assert(i < size());
     return data[i];
   }
   const T& operator[](const size_t i) const {
@@ -58,11 +59,14 @@ public:
     --used_size;
   }                           // decrement size
   void push_back(const T& x); // increment size, append x
-  Array(const Array&) {
-    assert(false);
-  } //prevent copying - this method must be public (gcc must see it but actually won't use it)
+
+  Array(const Array&) = delete;            //prevent copying 
+  Array& operator=(const Array&) = delete; //prevent assignment
+
+  Array(Array&& other);
+  Array& operator=(Array&& other);
+
 private:
-  Array& operator=(const Array&){}; //prevent assignment
 };
 
 template <class T, const int Align> void Array<T, Align>::create(size_t requested_size) {
@@ -81,6 +85,30 @@ template <class T, const int Align> void Array<T, Align>::create(size_t requeste
   data = (T*)(((uintptr_t)ptr + pad) & ~(uintptr_t)pad);
   assert(ptr <= (char*)data && (char*)data <= ptr + Align);
   assert(((uintptr_t)data & (Align - 1)) == 0); //aligned as expected?
+}
+
+template <class T, const int Align> Array<T, Align>::Array(Array&& other) {
+  if (this != &other) {
+    used_size = std::move(other.used_size);
+    reserved_size = std::move(other.reserved_size);
+    data = std::move(other.data);
+    ptr = std::move(other.ptr);
+    other.ptr = nullptr;
+    other.data = nullptr;
+  }
+}
+
+template <class T, const int Align> Array<T, Align>& Array<T, Align>::operator=(Array&& other) {
+  if (this != &other) {
+    this->~Array();
+    used_size = std::move(other.used_size);
+    reserved_size = std::move(other.reserved_size);
+    data = std::move(other.data);
+    ptr = std::move(other.ptr);
+    other.ptr = nullptr;
+    other.data = nullptr;
+  }
+  return this;
 }
 
 template <class T, const int Align> void Array<T, Align>::resize(size_t new_size) {
