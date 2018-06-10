@@ -4,7 +4,7 @@
 
 Important
 ---------
-**This repository is moving to [Gitlab](https://gitlab.com/schnaader/fairytale) - please move there if you want to contribute. The GitHub repository will be removed after successful migration.**
+**This repository is moving to [Gitlab](https://gitlab.com/schnaader/fairytale) - please update your bookmarks and do any contributions there. The GitHub repository will be removed after successful migration.**
 
 # Fairytale
 modern lossless community archiver that features
