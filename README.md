@@ -2,6 +2,10 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/k3y23dpxfu4rm108?svg=true)](https://ci.appveyor.com/project/schnaader/fairytale)
 [![Join the chat at https://gitter.im/encode-ru-Community-Archiver/Lobby](https://badges.gitter.im/encode-ru-Community-Archiver/Lobby.svg)](https://gitter.im/encode-ru-Community-Archiver/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+Important
+---------
+**This repository is moving to [Gitlab](https://gitlab.com/schnaader/fairytale) - please move there if you want to contribute. The GitHub repository will be removed after successful migration.**
+
 # Fairytale
 modern lossless community archiver that features
 
