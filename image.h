@@ -1,7 +1,7 @@
 /*
   This file is part of the Fairytale project
 
-  Copyright (C) 2018 Márcio Pais
+  Copyright (C) 2018 MÃ¡rcio Pais
 
   This library is free software: you can redistribute it and/or modify
   it under the terms of the GNU Lesser General Public License as published by
@@ -47,9 +47,9 @@ public:
         res |= (res) ? b : 0;
       }
       else if (j == 3)
-        res &= ((b == 0 || b == 0xFF) << 9) - 1; // alpha/attribute component must be zero or 0xFF
+        res &= ((b == 0 || b == 0xFF) * 0x1FF); // alpha/attribute component must be zero or 0xFF
       else
-        res &= ((b == (res & 0xFF)) << 9) - 1;
+        res &= ((b == (res & 0xFF)) * 0x1FF);
     }
     input->setPos(offset);
     return (res >> 8) > 0;
