@@ -7,26 +7,23 @@ Important
 **This repository is moving to [Gitlab](https://gitlab.com/schnaader/fairytale) - please update your bookmarks and do any contributions there. The GitHub repository will be removed after successful migration.**
 
 # Fairytale
-modern lossless community archiver that features
+A modern lossless community archiver featuring:
 
-* state of the art analysis of input data
-* detection and transform / recompression of data to improve compression
-* sorting input and arrange it in different streams
-* deduplication across all streams and recursion levels
-* applying different (best fit) compression algorithms on each stream
-* storing compressed data in a modern archiver format
+* State of the art analysis of input data
+* Detection and transform / recompression of data to improve compression
+* Sorting and arranging input it in different streams
+* Deduplication across all streams and recursion levels
+* Applying optimal compression algorithms on each stream
+* Storing compressed data in a modern archiver format
 
-It offers great modularity so that any algorithm can be added to it
-and enough flexibility to chose between fast, best practical or experimental state-of-the-art compression.
-Fairytale is a dream of a next generation archiver and it is a work in progress
-so if you share our dream and want to contribute, [join our great community here](https://gitter.im/encode-ru-Community-Archiver)
+Fairytale offers great modularity so that any algorithm can be added to it. Fairytale also brings flexbility in choosing between fast, best, practical, or experimental compression options. Fairytale is currently under production and seeks to be the next generation archiver.
 
 How to build
 ------------
 
-Using CMake (download it [here](https://cmake.org/download/)), you can build on many platforms using your favorite compiler (Visual Studio, MinGW, CodeBlocks, XCode, Unix Makefiles, ...). It will also detect automatically if zlib is installed and if not, compiles it from source.
+Using CMake ([install](https://cmake.org/download/)), you can build on many platforms using your favorite compiler (Visual Studio, MinGW, CodeBlocks, XCode, Unix Makefiles, ...). It will also detect automatically if zlib is installed and if not, compiles it from source.
 
-For Windows, there's a make.bat batch script that works with MinGW. Use `make` for a 64-bit build, `make 32` for a 32-bit build.
+For Windows, the make.bat batch script that works with MinGW. Use `make` for a 64-bit build and `make 32` for a 32-bit build.
 
 For Linux, OSX and ARM, there are Makefiles. Use `make` for a 64-bit build, `make -f Makefile.32` for a 32-bit build.
 
@@ -36,13 +33,35 @@ Releases/Binaries
 Please note that this is a very rough prototype that allows for testing of the pre-processing library.
 It doesn't apply any compression right now.
 
-[for ARM](https://drive.google.com/file/d/1Uc1w3Sf0J8A2wGZtcYtIDpHjcSuX8oY7/view)
+[ARM](https://drive.google.com/file/d/1Uc1w3Sf0J8A2wGZtcYtIDpHjcSuX8oY7/view)
 
-[for Linux](..)
+[Linux](..)
 
-[for OSX](..)
+[OSX](..)
 
-[for Windows](https://drive.google.com/drive/folders/1uj2YVjpbRscJiM0llTU-9uJuY5BmgBvt)
+[Windows](https://drive.google.com/drive/folders/1uj2YVjpbRscJiM0llTU-9uJuY5BmgBvt)
+
+Contributing
+------------
+We are excited that you want to contribute to Fairytale. Our goal is to solidify this project and your contributions are appreciated. 
+
+To contribute:
+- Fork the repository
+- Create a new branch
+- Apply changes and open Pull Request to merge
+    - Ensure the PR has concise title and detailed description
+    - Description should include chagnes made and why they were made
+
+To report bugs:
+- Check current issue list to see if other users have experienced the bug. If they have, make a comment on that issue.
+- If you experience a new bug, open up an issue in GitHub or contact us via email.
+
+Join our [community](https://gitter.im/encode-ru-Community-Archiver) to stay updated and discuss improvments for Fairytale!
+
+Contact
+-------
+Email: *Enter email here*    
+Any other contacts 
 
 License
 -------
