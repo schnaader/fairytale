@@ -2,33 +2,61 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/k3y23dpxfu4rm108?svg=true)](https://ci.appveyor.com/project/schnaader/fairytale)
 [![Join the chat at https://gitter.im/encode-ru-Community-Archiver/Lobby](https://badges.gitter.im/encode-ru-Community-Archiver/Lobby.svg)](https://gitter.im/encode-ru-Community-Archiver/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+# Fairytale: Modern Lossless Community Archiver
+
+
 Important
 ---------
-**This repository is moving to [Gitlab](https://gitlab.com/schnaader/fairytale) - please update your bookmarks and do any contributions there. The GitHub repository will be removed after successful migration.**
+**This repository has migrated to [Gitlab](https://gitlab.com/schnaader/fairytale). Please update your bookmarks and make contributions there. The GitHub repository will be removed after successful migration.**
 
-# Fairytale
-modern lossless community archiver that features
 
-* state of the art analysis of input data
-* detection and transform / recompression of data to improve compression
-* sorting input and arrange it in different streams
-* deduplication across all streams and recursion levels
-* applying different (best fit) compression algorithms on each stream
-* storing compressed data in a modern archiver format
+# Fairytale is a modern lossless community archiver that boasts several unique features including:
 
-It offers great modularity so that any algorithm can be added to it
-and enough flexibility to chose between fast, best practical or experimental state-of-the-art compression.
-Fairytale is a dream of a next generation archiver and it is a work in progress
-so if you share our dream and want to contribute, [join our great community here](https://gitter.im/encode-ru-Community-Archiver)
+* State-of-the-art analysis of input data.
+* Detection and transformation/recompression of data to enhance compression.
+* Sorting input data and organizing it into different streams.
+* Deduplication across all streams and recursion levels.
+* Application of various (best-fit) compression algorithms to each stream.
+* Storage of compressed data in a modern archiver format.
+
+The architecture of Fairytale is highly modular, allowing for the addition of any compression algorithm, and offers the flexibility to choose between fast, practical, or experimental state-of-the-art compression methods. Fairytale is a vision of the next-generation archiver and is a work in progress. If you share our dream and want to contribute, please [join our vibrant community here](https://gitter.im/encode-ru-Community-Archiver).
 
 How to build
 ------------
 
-Using CMake (download it [here](https://cmake.org/download/)), you can build on many platforms using your favorite compiler (Visual Studio, MinGW, CodeBlocks, XCode, Unix Makefiles, ...). It will also detect automatically if zlib is installed and if not, compiles it from source.
+You can build Fairytale on many platforms using CMake (download it [here](https://cmake.org/download/)) with your favorite compiler (Visual Studio, MinGW, CodeBlocks, XCode, Unix Makefiles, and more). It will also automatically detect if zlib is installed; if not, it will compile it from source.
 
-For Windows, there's a make.bat batch script that works with MinGW. Use `make` for a 64-bit build, `make 32` for a 32-bit build.
+* For Windows, use the `make.bat` batch script with MinGW. Run `make` for a 64-bit build or `make 32` for a 32-bit build.
 
-For Linux, OSX and ARM, there are Makefiles. Use `make` for a 64-bit build, `make -f Makefile.32` for a 32-bit build.
+* For Linux, OSX, and ARM, there are Makefiles available. Run `make` for a 64-bit build and `make -f Makefile.32` for a 32-bit build.
+
+## Usage
+
+Fairytale is a command-line application with various options and features. Here are some common usage examples within the command-line:
+
+* Compress a file:
+  fairytale compress input.txt -o compressed.ftl
+  
+* Decompress a file:
+  fairytale decompress compressed.ftl -o output.txt
+  
+* Configure compression options:
+  fairytale config --level 2
+
+## Performance Tips
+
+To optimize Fairytale's performance, consider the following tips:
+
+* Use higher compression levels for better compression ratios.
+  
+* Allocate more memory to the application for faster processing.
+
+## Known Issues and Limitations
+
+* Fairytale may not perform well on large files with certain data patterns.
+  
+* The current version lacks support for multi-threaded compression.
+
 
 Releases/Binaries
 -----------------
